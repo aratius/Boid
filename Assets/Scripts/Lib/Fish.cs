@@ -136,6 +136,24 @@ public class Fish : MonoBehaviour
   }
 
   /// <summary>
+  /// 妊娠する
+  /// NOTE: メスクラスに継承してそちらで実装したほうが良いかも
+  /// </summary>
+  public void GetPregnant()
+  {
+
+  }
+
+  /// <summary>
+  /// 出産する
+  /// NOTE: メスクラスに継承してそちらで実装したほうが良いかも
+  /// </summary>
+  public void GiveBirth()
+  {
+
+  }
+
+  /// <summary>
   /// 病気になる
   /// </summary>
   public void GetIll()
