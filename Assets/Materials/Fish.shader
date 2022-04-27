@@ -46,11 +46,8 @@ Shader "Unlit/Fish"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // sample the texture
-                // fixed4 col = tex2D(_MainTex, i.uv);
-                // apply fog
-                // UNITY_APPLY_FOG(i.fogCoord, col);
-                fixed4 col = fixed4(1., 0., 0., 1.);
+                fixed2 uv = i.uv;
+                fixed4 col = fixed4(step(uv.x, 0.5), 0., 0., 1.);
                 return col;
             }
             ENDCG
