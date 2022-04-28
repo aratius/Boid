@@ -21,6 +21,11 @@ public class Fish : MonoBehaviour
     set { this.transform.position = value; }
   }
 
+  public float direction
+  {
+    get { return Mathf.Atan2(this._velocity.x, this._velocity.y); }
+  }
+
   /// <summary>
   /// 前回の位置
   /// 正確でない可能性
@@ -44,16 +49,15 @@ public class Fish : MonoBehaviour
     // 位置更新
     Vector3 pos = this.position;
     pos += this._velocity;
-
     pos = MyStage.getPosition(pos);
     this.transform.position = pos;
 
     // 回転角
     Vector3 euler = this.transform.rotation.eulerAngles;
-    euler.z = Mathf.Atan2(this._velocity.x, this._velocity.y) * 180f / Mathf.PI;
+    euler.z = this.direction * 180f / Mathf.PI;
     this.transform.rotation = Quaternion.Euler(euler);
 
-    this._velocity *= 0.9f;
+    this._velocity *= 0.99f;
   }
 
   /// <summary>

@@ -29,15 +29,38 @@ public class GameController : MonoBehaviour
   {
     for (int i = 0; i < this._fishes.Count; i++)
     {
-      Fish fish = this._fishes[i];
-      if (i % 2 == 0)
+      Fish me = this._fishes[i];
+      Vector3 addVel = Vector3.zero;
+      float addDir = 0;
+      Vector3 addPos = Vector3.zero;
+      float nearCount = 1e-4f;
+
+      for (int j = 0; j < this._fishes.Count; j++)
       {
-        fish.AddVelocity(new Vector3(0.01f, 0f, 0f));
+        if (i == j) continue;
+        Fish other = this._fishes[j];
+        float dist = Vector3.Distance(me.position, other.position);
+        const float DIST_THRESHOLD = 1f;
+
+        if (dist < DIST_THRESHOLD)
+        {
+          // 反発
+          addVel += -1f * Vector3.Normalize(other.position - me.position) * (DIST_THRESHOLD - dist) * 0.03f;
+          // 方向平均
+          addDir += other.direction;
+          // 位置平均
+          addPos += other.position;
+
+          nearCount++;
+        }
       }
-      else
-      {
-        fish.AddVelocity(new Vector3(0f, 0.01f, 0f));
-      }
+      addDir /= nearCount;
+      addPos /= nearCount;
+
+      addVel += Vector3.Normalize(addPos - me.position) * 0.001f;
+      addVel += new Vector3(Mathf.Sin(addDir), Mathf.Cos(addDir), 0f) * 0.001f;
+
+      me.AddVelocity(addVel);
     }
   }
 }
