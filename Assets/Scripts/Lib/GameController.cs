@@ -5,9 +5,9 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
 
-  [SerializeField] GameObject stage;
-  [SerializeField] GameObject fishPrefab;
-  [SerializeField] int fishCount = 100;
+  [SerializeField] private GameObject _stage;
+  [SerializeField] private GameObject _fishPrefab;
+  [SerializeField] private int _fishCount = 100;
 
   [Header("反発")]
   [SerializeField, Range(0.01f, 5f)] private float _THRESHOLD_REFRECT = 0.5f;
@@ -24,9 +24,9 @@ public class GameController : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    for (int i = 0; i < fishCount; i++)
+    for (int i = 0; i < _fishCount; i++)
     {
-      GameObject fish = Instantiate(fishPrefab, this.stage.transform);
+      GameObject fish = Instantiate(_fishPrefab, this._stage.transform);
       Fish script = fish.GetComponent<Fish>();
       Vector3 randomPos = new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), 0f);
       script.position = randomPos;

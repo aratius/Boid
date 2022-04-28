@@ -166,9 +166,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19a9d376a5e2e4c1890faf1a9fee6a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage: {fileID: 628595018}
-  fishPrefab: {fileID: 93043755305916664, guid: 6d5b17a0ac6cf4fd9a9d6ef1cf6f566d, type: 3}
-  fishCount: 100
+  _stage: {fileID: 628595018}
+  _fishPrefab: {fileID: 93043755305916664, guid: 6d5b17a0ac6cf4fd9a9d6ef1cf6f566d, type: 3}
+  _fishCount: 100
+  _THRESHOLD_REFRECT: 0.5
+  _POWER_REFRECT: 1
+  _THRESHOLD_POS: 0.5
+  _POWER_POS: 1
+  _THRESHOLD_DIR: 0.5
+  _POWER_DIR: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
