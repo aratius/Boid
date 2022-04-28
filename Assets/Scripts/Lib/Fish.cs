@@ -49,7 +49,7 @@ public class Fish : MonoBehaviour
     // 位置更新
     Vector3 pos = this.position;
     pos += this._velocity;
-    pos = MyStage.getPosition(pos);
+    pos = MyStage.getPositionAddBias(pos, 2f, 2f);
     this.transform.position = pos;
 
     // 回転角

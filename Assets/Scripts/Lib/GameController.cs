@@ -52,22 +52,22 @@ public class GameController : MonoBehaviour
         Fish other = this._fishes[j];
         float dist = Vector3.Distance(me.position, other.position);
 
+        // 反発
         if (dist < this._THRESHOLD_REFRECT)
         {
-          // 反発
           addVel += -1f * Vector3.Normalize(other.position - me.position) * (this._THRESHOLD_REFRECT - dist) * 0.05f * this._POWER_REFRECT;
         }
 
+        // 位置平均
         if (dist < this._THRESHOLD_POS)
         {
-          // 位置平均
           addPos += other.position;
           posCount++;
         }
 
+        // 方向平均
         if (dist < this._THRESHOLD_DIR)
         {
-          // 方向平均
           addDir += other.direction;
           dirCount++;
         }
