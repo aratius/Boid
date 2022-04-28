@@ -15,23 +15,7 @@ public class MyStage
   /// <returns></returns>
   public static Vector3 getPosition(Vector3 pos)
   {
-    if (pos.x > MyStage.RIGHT)
-    {
-      pos.x = MyStage.LEFT;
-    }
-    else if (pos.x < MyStage.LEFT)
-    {
-      pos.x = MyStage.RIGHT;
-    }
-    else if (pos.y > MyStage.TOP)
-    {
-      pos.y = MyStage.BOTTOM;
-    }
-    else if (pos.y < MyStage.BOTTOM)
-    {
-      pos.y = MyStage.TOP;
-    }
-    return pos;
+    return MyStage.getPositionAddBias(pos, 0f, 0f);
   }
 
   /// <summary>
@@ -46,23 +30,7 @@ public class MyStage
     float top = MyStage.TOP + t;
     float bottom = MyStage.BOTTOM - b;
 
-    if (pos.x > right)
-    {
-      pos.x = left;
-    }
-    else if (pos.x < left)
-    {
-      pos.x = right;
-    }
-    else if (pos.y > top)
-    {
-      pos.y = bottom;
-    }
-    else if (pos.y < bottom)
-    {
-      pos.y = top;
-    }
-    return pos;
+    return MyStage._getPosition(pos, left, right, top, bottom);
   }
 
   /// <summary>
@@ -72,26 +40,26 @@ public class MyStage
   /// <returns></returns>
   public static Vector3 getPositionAddBias(Vector3 pos, float x, float y)
   {
-    float right = MyStage.RIGHT + x;
-    float left = MyStage.LEFT - x;
-    float top = MyStage.TOP + y;
-    float bottom = MyStage.BOTTOM - y;
+    return MyStage.getPositionAddBias(pos, x, x, y, y);
+  }
 
-    if (pos.x > right)
+  private static Vector3 _getPosition(Vector3 pos, float l, float r, float t, float b)
+  {
+    if (pos.x > r)
     {
-      pos.x = left;
+      pos.x = l;
     }
-    else if (pos.x < left)
+    else if (pos.x < l)
     {
-      pos.x = right;
+      pos.x = r;
     }
-    else if (pos.y > top)
+    else if (pos.y > t)
     {
-      pos.y = bottom;
+      pos.y = b;
     }
-    else if (pos.y < bottom)
+    else if (pos.y < b)
     {
-      pos.y = top;
+      pos.y = t;
     }
     return pos;
   }
