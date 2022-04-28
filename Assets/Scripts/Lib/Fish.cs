@@ -45,22 +45,7 @@ public class Fish : MonoBehaviour
     Vector3 pos = this.position;
     pos += this._velocity;
 
-    if (pos.x > MyStage.RIGHT)
-    {
-      pos.x = MyStage.LEFT;
-    }
-    else if (pos.x < MyStage.LEFT)
-    {
-      pos.x = MyStage.RIGHT;
-    }
-    else if (pos.y > MyStage.TOP)
-    {
-      pos.y = MyStage.BOTTOM;
-    }
-    else if (pos.y < MyStage.BOTTOM)
-    {
-      pos.y = MyStage.TOP;
-    }
+    pos = MyStage.getPosition(pos);
     this.transform.position = pos;
 
     // 回転角
