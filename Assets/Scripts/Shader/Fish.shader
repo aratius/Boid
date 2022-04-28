@@ -47,6 +47,17 @@ Shader "Unlit/Fish"
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed2 uv = i.uv;
+                const fixed2 CENTER = fixed2(0.5, 0.5);
+                uv -= CENTER;
+
+                float angle = atan2(uv.x, uv.y);
+                float dist = length(uv);
+                const float RANGE = 0.1;
+                float far_bias = pow(dist / 0.5, 2.);
+                float add_angle = sin(_Time.y * 3.) * far_bias * RANGE;
+                uv = fixed2(sin(angle + add_angle) * dist, cos(angle + add_angle) * dist);
+
+                uv += CENTER;
                 fixed4 col = fixed4(step(uv.x, 0.5), 0., 0., 1.);
                 return col;
             }
