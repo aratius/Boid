@@ -23,6 +23,16 @@ public class MyStage
   /// </summary>
   /// <param name="pos"></param>
   /// <returns></returns>
+  public static Vector3 getPositionAddBias(Vector3 pos, float x, float y)
+  {
+    return MyStage.getPositionAddBias(pos, x, x, y, y);
+  }
+
+  /// <summary>
+  /// 画面外に出たときに逆側から登場するように丸めた位置情報
+  /// </summary>
+  /// <param name="pos"></param>
+  /// <returns></returns>
   public static Vector3 getPositionAddBias(Vector3 pos, float l, float r, float t, float b)
   {
     float right = MyStage.RIGHT + r;
@@ -31,16 +41,6 @@ public class MyStage
     float bottom = MyStage.BOTTOM - b;
 
     return MyStage._getPosition(pos, left, right, top, bottom);
-  }
-
-  /// <summary>
-  /// 画面外に出たときに逆側から登場するように丸めた位置情報
-  /// </summary>
-  /// <param name="pos"></param>
-  /// <returns></returns>
-  public static Vector3 getPositionAddBias(Vector3 pos, float x, float y)
-  {
-    return MyStage.getPositionAddBias(pos, x, x, y, y);
   }
 
   private static Vector3 _getPosition(Vector3 pos, float l, float r, float t, float b)
