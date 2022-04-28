@@ -17,6 +17,7 @@ public class Fish : MonoBehaviour
   public Vector3 position
   {
     get { return Vector3.zero; }
+    set { this.transform.position = value; }
   }
 
   /// <summary>
