@@ -10,7 +10,6 @@ public class Fish : MonoBehaviour
   public int generation = -1;  // 世代
   private float _progress = 0f;  // 経過
   private Vector3 _velocity = Vector3.zero;
-  private Vector3 _lastPosition = Vector3.zero;
 
   /// <summary>
   /// 位置
@@ -20,6 +19,16 @@ public class Fish : MonoBehaviour
   {
     get { return this.transform.position; }
     set { this.transform.position = value; }
+  }
+
+  /// <summary>
+  /// 前回の位置
+  /// 正確でない可能性
+  /// </summary>
+  /// <value></value>
+  private Vector3 _lastPosition
+  {
+    get { return this.position - this._velocity; }
   }
 
   void Start()
@@ -32,17 +41,34 @@ public class Fish : MonoBehaviour
     const float COEFFICIENT = 0.1f;  // 係数
     this._progress += this._velocity.magnitude * COEFFICIENT;
 
+    // 位置更新
     Vector3 pos = this.position;
     pos += this._velocity;
+
+    if (pos.x > MyStage.RIGHT)
+    {
+      pos.x = MyStage.LEFT;
+    }
+    else if (pos.x < MyStage.LEFT)
+    {
+      pos.x = MyStage.RIGHT;
+    }
+    else if (pos.y > MyStage.TOP)
+    {
+      pos.y = MyStage.BOTTOM;
+    }
+    else if (pos.y < MyStage.BOTTOM)
+    {
+      pos.y = MyStage.TOP;
+    }
     this.transform.position = pos;
 
+    // 回転角
     Vector3 euler = this.transform.rotation.eulerAngles;
     euler.z = Mathf.Atan2(this._velocity.x, this._velocity.y) * 180f / Mathf.PI;
     this.transform.rotation = Quaternion.Euler(euler);
 
     this._velocity *= 0.9f;
-
-    this._lastPosition = this.position;
   }
 
   /// <summary>
