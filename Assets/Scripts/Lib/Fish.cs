@@ -36,9 +36,9 @@ public class Fish : MonoBehaviour
     pos += this._velocity;
     this.transform.position = pos;
 
-    float z = Mathf.Atan2(this._velocity.x, this._velocity.y);
-    this.transform.rotation = Quaternion.Euler(0f, 0f, z * 180f / Mathf.PI);
-    Debug.Log(z);
+    Vector3 euler = this.transform.rotation.eulerAngles;
+    euler.z = Mathf.Atan2(this._velocity.x, this._velocity.y) * 180f / Mathf.PI;
+    this.transform.rotation = Quaternion.Euler(euler);
 
     this._velocity *= 0.9f;
 
