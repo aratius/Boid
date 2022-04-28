@@ -9,6 +9,8 @@ public class Fish : MonoBehaviour
   public Sex sex = Sex.Male;  // 性別
   public int generation = -1;  // 世代
   private float _progress = 0f;  // 経過
+  private Vector3 _velocity = Vector3.zero;
+  private Vector3 _lastPosition = Vector3.zero;
 
   /// <summary>
   /// 位置
@@ -16,26 +18,8 @@ public class Fish : MonoBehaviour
   /// <value></value>
   public Vector3 position
   {
-    get { return Vector3.zero; }
+    get { return this.transform.position; }
     set { this.transform.position = value; }
-  }
-
-  /// <summary>
-  /// 速度
-  /// </summary>
-  /// <value></value>
-  public Vector3 velocity
-  {
-    get { return Vector3.zero; }
-  }
-
-  /// <summary>
-  /// 方向
-  /// </summary>
-  /// <value></value>
-  public Vector3 direction
-  {
-    get { return Vector3.Normalize(this.velocity); }
   }
 
   void Start()
@@ -46,8 +30,19 @@ public class Fish : MonoBehaviour
   void Update()
   {
     const float COEFFICIENT = 0.1f;  // 係数
-    this._progress += this.velocity.magnitude * COEFFICIENT;
-    // TODO: ShaderにTimeProgressをセット
+    this._progress += this._velocity.magnitude * COEFFICIENT;
+
+    Vector3 pos = this.position;
+    pos += this._velocity;
+    this.transform.position = pos;
+
+    float z = Mathf.Atan2(this._velocity.x, this._velocity.y);
+    this.transform.rotation = Quaternion.Euler(0f, 0f, z * 180f / Mathf.PI);
+    Debug.Log(z);
+
+    this._velocity *= 0.9f;
+
+    this._lastPosition = this.position;
   }
 
   /// <summary>
@@ -65,7 +60,7 @@ public class Fish : MonoBehaviour
   /// <param name="vel"></param>
   public void AddVelocity(Vector3 vel)
   {
-
+    this._velocity += vel;
   }
 
   /// <summary>

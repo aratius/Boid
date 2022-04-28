@@ -27,6 +27,17 @@ public class GameController : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-
+    for (int i = 0; i < this._fishes.Count; i++)
+    {
+      Fish fish = this._fishes[i];
+      if (i % 2 == 0)
+      {
+        fish.AddVelocity(new Vector3(0.01f, 0f, 0f));
+      }
+      else
+      {
+        fish.AddVelocity(new Vector3(0f, 0.01f, 0f));
+      }
+    }
   }
 }
