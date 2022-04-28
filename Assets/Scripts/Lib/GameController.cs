@@ -9,6 +9,16 @@ public class GameController : MonoBehaviour
   [SerializeField] GameObject fishPrefab;
   [SerializeField] int fishCount = 100;
 
+  [Header("反発")]
+  [SerializeField, Range(0.01f, 5f)] private float _THRESHOLD_REFRECT = 0.5f;
+  [SerializeField, Range(0.01f, 5f)] private float _POWER_REFRECT = 1f;
+  [Header("位置平均")]
+  [SerializeField, Range(0.01f, 5f)] private float _THRESHOLD_POS = 0.5f;
+  [SerializeField, Range(0.01f, 5f)] private float _POWER_POS = 1f;
+  [Header("方向平均")]
+  [SerializeField, Range(0.01f, 5f)] private float _THRESHOLD_DIR = 0.5f;
+  [SerializeField, Range(0.01f, 5f)] private float _POWER_DIR = 1f;
+
   private List<Fish> _fishes = new List<Fish>();
 
   // Start is called before the first frame update
@@ -32,33 +42,41 @@ public class GameController : MonoBehaviour
       Fish me = this._fishes[i];
       Vector3 addVel = Vector3.zero;
       float addDir = 0;
+      float dirCount = 1e-4f;
       Vector3 addPos = Vector3.zero;
-      float nearCount = 1e-4f;
+      float posCount = 1e-4f;
 
       for (int j = 0; j < this._fishes.Count; j++)
       {
         if (i == j) continue;
         Fish other = this._fishes[j];
         float dist = Vector3.Distance(me.position, other.position);
-        const float DIST_THRESHOLD = 1f;
 
-        if (dist < DIST_THRESHOLD)
+        if (dist < this._THRESHOLD_REFRECT)
         {
           // 反発
-          addVel += -1f * Vector3.Normalize(other.position - me.position) * (DIST_THRESHOLD - dist) * 0.03f;
-          // 方向平均
-          addDir += other.direction;
+          addVel += -1f * Vector3.Normalize(other.position - me.position) * (this._THRESHOLD_REFRECT - dist) * 0.05f * this._POWER_REFRECT;
+        }
+
+        if (dist < this._THRESHOLD_POS)
+        {
           // 位置平均
           addPos += other.position;
+          posCount++;
+        }
 
-          nearCount++;
+        if (dist < this._THRESHOLD_DIR)
+        {
+          // 方向平均
+          addDir += other.direction;
+          dirCount++;
         }
       }
-      addDir /= nearCount;
-      addPos /= nearCount;
+      addPos /= posCount;
+      addDir /= dirCount;
 
-      addVel += Vector3.Normalize(addPos - me.position) * 0.001f;
-      addVel += new Vector3(Mathf.Sin(addDir), Mathf.Cos(addDir), 0f) * 0.001f;
+      addVel += Vector3.Normalize(addPos - me.position) * 0.001f * this._POWER_POS;
+      addVel += new Vector3(Mathf.Sin(addDir), Mathf.Cos(addDir), 0f) * 0.001f * this._POWER_DIR;
 
       me.AddVelocity(addVel);
     }
