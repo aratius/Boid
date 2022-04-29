@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 
 /// <summary>
 /// 魚の種を管理する
+/// getOneメソッドを呼ばれたときに、いま作成するべき優先度のアルゴリズムから一匹の魚を返す
 /// イベント駆動にしたい
 /// </summary>
 public class FishManager
@@ -23,12 +24,14 @@ public class FishManager
   /// <returns></returns>
   public FishData getOne()
   {
-    FishData _d = null;
+    // NOTE: 画面上に存在しないやつ
+    // NOTE: 作成新しい順
+    FishData fd = null;
     foreach (string id in this._data.Keys)
     {
-      _d = this._data[id];
+      fd = this._data[id];
     }
-    return _d;
+    return fd;
   }
 
   /// <summary>
