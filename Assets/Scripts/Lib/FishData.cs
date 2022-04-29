@@ -9,7 +9,7 @@ public class FishData
   {
     get
     {
-      JsonData data = JsonMapper.ToObject("{'id': '', 'points': [], center: {'x': 0, 'y': 0}}");
+      JsonData data = JsonMapper.ToObject("{'id': '', 'points': [], 'center': {'x': '0', 'y': '0'}}".Trim());
       return data;
     }
   }

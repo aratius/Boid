@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
   [SerializeField, Range(0.01f, 5f)] private float _THRESHOLD_DIR = 0.5f;
   [SerializeField, Range(0.01f, 5f)] private float _POWER_DIR = 1f;
 
+  private FishManager _fishManager = new FishManager();
   private List<Fish> _fishes = new List<Fish>();
 
   // Start is called before the first frame update
@@ -33,8 +34,7 @@ public class GameController : MonoBehaviour
       this._fishes.Add(script);
     }
 
-
-    StartCoroutine(Api.GetList());
+    this._fishManager.Init();
   }
 
   // Update is called once per frame
