@@ -18,6 +18,11 @@ public class FishManager
   private async UniTask _UpdateFish()
   {
     JsonData data = await Api.GetList();
-    Debug.Log(data);
+    JsonData fishes = data["body"]["Items"];
+    for (int i = 0; i < fishes.Count; i++)
+    {
+      JsonData fishJson = fishes[i];
+      FishData fishData = new FishData(fishJson);
+    }
   }
 }

@@ -27,29 +27,7 @@ public class Api
       // NOTE: 長すぎて切り捨てられている可能性
       Debug.Log(www.downloadHandler.text);
       JsonData data = JsonMapper.ToObject<JsonData>(www.downloadHandler.text.Trim());
-      // JsonData data = JsonMapper.ToObject<JsonData>("{'hoge': 1}");
       return data;
-    }
-  }
-
-  /// <summary>
-  /// 演奏一覧を取得
-  /// </summary>
-  /// <returns></returns>
-  public static IEnumerator _GetList()
-  {
-    UnityWebRequest www = new UnityWebRequest(Api._URL + Api._FISH, "GET");
-    www.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-    yield return www.SendWebRequest();
-
-    if (www.isNetworkError || www.isHttpError)
-    {
-      Debug.Log(www.error);
-    }
-    else
-    {
-      Debug.Log(www.downloadHandler.text);
-      JsonData data = JsonMapper.ToObject<JsonData>(www.downloadHandler.text);
     }
   }
 
