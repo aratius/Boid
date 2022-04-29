@@ -60,7 +60,6 @@ public class Fish : MonoBehaviour
     euler.z = -this.direction * 180f / Mathf.PI;
     this.transform.rotation = Quaternion.Euler(euler);
 
-
     this._velocity *= 0.99f;
   }
 

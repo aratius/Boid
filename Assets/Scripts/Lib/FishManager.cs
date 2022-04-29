@@ -29,7 +29,10 @@ public class FishManager
     FishData fd = null;
     foreach (string id in this._data.Keys)
     {
-      fd = this._data[id];
+      if (!this._appearing.Contains(id))
+      {
+        fd = this._data[id];
+      }
     }
     return fd;
   }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class FishController : MonoBehaviour
@@ -25,7 +26,7 @@ public class FishController : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    for (int i = 0; i < _fishCount; i++)
+    for (int i = 0; i < 10; i++)
     {
       GameObject fish = Instantiate(_fishPrefab, this._stage.transform);
       Fish script = fish.GetComponent<Fish>();
@@ -42,6 +43,20 @@ public class FishController : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+
+    FishData fishData = this._fishManager.getOne();
+    Debug.Log(fishData);
+    if (fishData != null)
+    {
+      GameObject fish = Instantiate(_fishPrefab, this._stage.transform);
+      Fish script = fish.GetComponent<Fish>();
+      Vector3 randomPos = new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), 0f);
+      script.position = randomPos;
+      script.Init(Regex.Replace(fishData.image, "data:image/(png|jpe??g);base64,", ""), fishData.generation);
+      this._fishes.Add(script);
+      this._fishManager.Add(fishData.id);
+    }
+
     for (int i = 0; i < this._fishes.Count; i++)
     {
       Fish me = this._fishes[i];
