@@ -68,6 +68,11 @@ public class Fish : MonoBehaviour
   public void Init(string image, int generation)
   {
     // TODO: シェーダーに画像を渡す
+    byte[] bytes = System.Convert.FromBase64String(image);
+    Texture2D texture = new Texture2D(1, 1);
+    texture.LoadImage(bytes);
+    Material material = this.GetComponent<SpriteRenderer>().material;
+    material.SetTexture("_MyTex", texture);
   }
 
   /// <summary>

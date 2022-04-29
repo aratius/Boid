@@ -1,12 +1,15 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Unlit/Fish"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        [NoScaleOffset] _MyTex ("Texture", 2D) = "white" {}
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType"="Transparent" "Queue" = "Transparent" }
+        Blend SrcAlpha OneMinusSrcAlpha
         LOD 100
 
         Pass
@@ -15,9 +18,7 @@ Shader "Unlit/Fish"
             #pragma vertex vert
             #pragma fragment frag
             // make fog work
-            #pragma multi_compile_fog
-
-            #include "UnityCG.cginc"
+            // #pragma multi_compile_fog
 
             struct appdata
             {
@@ -28,19 +29,16 @@ Shader "Unlit/Fish"
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
+            sampler2D _MyTex;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
+                o.uv = v.uv;
                 return o;
             }
 
@@ -53,12 +51,17 @@ Shader "Unlit/Fish"
                 float angle = atan2(uv.x, uv.y);
                 float dist = length(uv);
                 const float RANGE = 0.1;
-                float far_bias = pow(dist / 0.5, 2.);
-                float add_angle = sin(_Time.y * 3.) * far_bias * RANGE;
+                float far_bias = pow(dist / 0.3, 2.);
+                float add_angle = sin(_Time.y * 10.) * far_bias * RANGE;
+                if(uv.y < 0.) add_angle *= -1.;
                 uv = fixed2(sin(angle + add_angle) * dist, cos(angle + add_angle) * dist);
 
                 uv += CENTER;
-                fixed4 col = fixed4(step(uv.x, 0.5), 0., 0., 1.);
+
+                if(uv.x > 1. || uv.x < 0. || uv.y > 1. || uv.y < 0.) discard;
+
+                fixed4 col = tex2D(_MyTex, uv);
+                if(col.r == 0.) col.a = 0.;
                 return col;
             }
             ENDCG
