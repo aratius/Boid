@@ -16,9 +16,9 @@ public class FishData
   }
 
   public string id;
-  public List<Vector2> points;
+  public List<Vector2> points = new List<Vector2>();
   public Vector2 center;
-  public List<string> parentIds;
+  public List<string> parentIds = new List<string>();
   public int generation;
   public string image;
 
@@ -26,22 +26,15 @@ public class FishData
   {
     this.id = json["id"].ToString();
     this.generation = JsonUtils.ToInt(json["generation"]);
-    // center
+    // // center
     JsonData c = JsonMapper.ToObject<JsonData>(json["center"].ToString());
     this.center = new Vector2(JsonUtils.ToFloat(c["x"]), JsonUtils.ToFloat(c["y"]));
-    // parentIds
-    JsonData parentIds = json["parentIds"];
-    if (parentIds.IsArray)
+    // // parentIds
+    JsonData pIds = json["parentIds"];
+    for (int i = 0; i < pIds.Count; i++)
     {
-      for (int i = 0; i < parentIds.Count; i++)
-      {
-        string id = parentIds[i].ToString();
-        parentIds.Add(id);
-      }
-    }
-    else
-    {
-      Debug.LogError("ParentIds is not an array.");
+      string id = pIds[i].ToString();
+      this.parentIds.Add(id);
     }
     // points
     JsonData points = json["points"];
