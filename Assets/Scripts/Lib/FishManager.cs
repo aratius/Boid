@@ -9,7 +9,7 @@ using Cysharp.Threading.Tasks;
 public class FishManager
 {
 
-  private List<FishData> _dataList = new List<FishData>();
+  private Dictionary<string, FishData> _data = new Dictionary<string, FishData>();
 
   public void Init()
   {
@@ -17,12 +17,17 @@ public class FishManager
   }
 
   /// <summary>
-  /// 一匹要求されてどれを返すかのアルゴリズムをここで
+  /// TODO: 一匹要求されてどれを返すかのアルゴリズムをここで
   /// </summary>
   /// <returns></returns>
   public FishData getOne()
   {
-    return this._dataList[0];
+    FishData _d = null;
+    foreach (string id in this._data.Keys)
+    {
+      _d = this._data[id];
+    }
+    return _d;
   }
 
   /// <summary>
@@ -39,14 +44,10 @@ public class FishManager
       FishData fishData = new FishData(fishJson);
 
       string id = fishData.id;
-      bool found = false;
-      for (int j = 0; j < this._dataList.Count; j++)
+      if (!this._data.ContainsKey(id))
       {
-        string otherId = this._dataList[j].id;
-        if (id == otherId) found = true;
+        this._data.Add(id, fishData);
       }
-
-      if (!found) this._dataList.Add(fishData);
     }
   }
 }
