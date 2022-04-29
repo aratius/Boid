@@ -32,6 +32,9 @@ public class GameController : MonoBehaviour
       script.position = randomPos;
       this._fishes.Add(script);
     }
+
+
+    StartCoroutine(Api.GetList());
   }
 
   // Update is called once per frame

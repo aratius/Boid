@@ -7,6 +7,7 @@ public class Fish : MonoBehaviour
 {
 
   public Sex sex = Sex.Male;  // 性別
+  public int age = 0;  // 年齢
   public int generation = -1;  // 世代
   private float _progress = 0f;  // 経過
   private Vector3 _velocity = Vector3.zero;
@@ -161,7 +162,7 @@ public class Fish : MonoBehaviour
   /// </summary>
   public void GiveBirth()
   {
-
+    // 低確率で死亡
   }
 
   /// <summary>
