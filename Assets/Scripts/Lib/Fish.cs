@@ -6,9 +6,9 @@ using UnityEngine;
 public class Fish : MonoBehaviour
 {
 
+  public FishData data = new FishData(FishData.DUMMY);  // 魚情報
   public Sex sex = Sex.Male;  // 性別
   public int age = 0;  // 年齢
-  public int generation = -1;  // 世代
   private float _progress = 0f;  // 経過
   private Vector3 _velocity = Vector3.zero;
 

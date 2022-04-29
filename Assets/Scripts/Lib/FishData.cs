@@ -5,6 +5,15 @@ using UnityEngine;
 public class FishData
 {
 
+  public static JsonData DUMMY
+  {
+    get
+    {
+      JsonData data = JsonMapper.ToObject("{'id': '', 'points': [], center: {'x': 0, 'y': 0}}");
+      return data;
+    }
+  }
+
   public string id;
   public List<Vector2> points;
   public Vector2 center;
