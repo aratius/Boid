@@ -10,6 +10,7 @@ public class FishManager
 {
 
   private Dictionary<string, FishData> _data = new Dictionary<string, FishData>();
+  private List<string> _appearing = new List<string>();
 
   public void Init()
   {
@@ -28,6 +29,24 @@ public class FishManager
       _d = this._data[id];
     }
     return _d;
+  }
+
+  /// <summary>
+  /// appearingに追加
+  /// </summary>
+  /// <param name="id"></param>
+  public void Add(string id)
+  {
+    this._appearing.Add(id);
+  }
+
+  /// <summary>
+  /// appearingから削除
+  /// </summary>
+  /// <param name="id"></param>
+  public void Remove(string id)
+  {
+    this._appearing.Remove(id);
   }
 
   /// <summary>
