@@ -37,7 +37,15 @@ public class FishData
       this.parentIds.Add(id);
     }
     // points
-    JsonData points = json["points"];
+    JsonData ps = JsonMapper.ToObject(json["points"].ToString());
+    for (int i = 0; i < ps.Count; i++)
+    {
+      JsonData pJson = ps[i];
+      Vector2 p = new Vector2(JsonUtils.ToFloat(pJson["x"]), JsonUtils.ToFloat(pJson["y"]));
+      this.points.Add(p);
+    }
+
+    this.image = json["image"].ToString();
 
   }
 
