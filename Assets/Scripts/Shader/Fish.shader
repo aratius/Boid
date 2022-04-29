@@ -5,6 +5,7 @@ Shader "Unlit/Fish"
     Properties
     {
         [NoScaleOffset] _MyTex ("Texture", 2D) = "white" {}
+        _Progress ("Progress", float) = 0
     }
     SubShader
     {
@@ -33,6 +34,7 @@ Shader "Unlit/Fish"
             };
 
             sampler2D _MyTex;
+            fixed _Progress;
 
             v2f vert (appdata v)
             {
@@ -51,8 +53,8 @@ Shader "Unlit/Fish"
                 float angle = atan2(uv.x, uv.y);
                 float dist = length(uv);
                 const float RANGE = 0.1;
-                float far_bias = pow(dist / 0.3, 2.);
-                float add_angle = sin(_Time.y * 10.) * far_bias * RANGE;
+                float far_bias = pow(dist / 0.25, 2.);
+                float add_angle = sin(_Progress * 50.) * far_bias * RANGE;
                 if(uv.y < 0.) add_angle *= -1.;
                 uv = fixed2(sin(angle + add_angle) * dist, cos(angle + add_angle) * dist);
 

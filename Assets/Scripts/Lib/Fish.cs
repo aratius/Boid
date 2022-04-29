@@ -46,6 +46,8 @@ public class Fish : MonoBehaviour
   {
     const float COEFFICIENT = 0.1f;  // 係数
     this._progress += this._velocity.magnitude * COEFFICIENT;
+    Material material = this.GetComponent<SpriteRenderer>().material;
+    material.SetFloat("_Progress", this._progress);
 
     // 位置更新
     Vector3 pos = this.position;
@@ -57,6 +59,7 @@ public class Fish : MonoBehaviour
     Vector3 euler = this.transform.rotation.eulerAngles;
     euler.z = -this.direction * 180f / Mathf.PI;
     this.transform.rotation = Quaternion.Euler(euler);
+
 
     this._velocity *= 0.99f;
   }
