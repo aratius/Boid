@@ -54,7 +54,7 @@ public class Fish : MonoBehaviour
 
     // 回転角
     Vector3 euler = this.transform.rotation.eulerAngles;
-    euler.z = this.direction * 180f / Mathf.PI;
+    euler.z = -this.direction * 180f / Mathf.PI;
     this.transform.rotation = Quaternion.Euler(euler);
 
     this._velocity *= 0.99f;
