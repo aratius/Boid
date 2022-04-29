@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// 一定progress到達したら死ぬ？（一生の間の心拍回数は決まっている？）
@@ -6,7 +6,7 @@ using UnityEngine;
 public class Fish : MonoBehaviour
 {
 
-  public FishData data = new FishData(FishData.DUMMY);  // 魚情報
+  public FishData data;  // 魚情報
   public Sex sex = Sex.Male;  // 性別
   public int age = 0;  // 年齢
   private float _progress = 0f;  // 経過

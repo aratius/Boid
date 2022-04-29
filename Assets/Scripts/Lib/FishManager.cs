@@ -22,7 +22,7 @@ public class FishManager
     for (int i = 0; i < fishes.Count; i++)
     {
       JsonData fishJson = fishes[i];
-      FishData fishData = new FishData(fishJson);
+      // FishData fishData = new FishData(fishJson);
     }
   }
 }
