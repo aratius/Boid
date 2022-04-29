@@ -20,6 +20,7 @@ public class FishData
   public Vector2 center;
   public List<string> parentIds;
   public int generation;
+  public string image;
 
   public FishData(JsonData json)
   {
