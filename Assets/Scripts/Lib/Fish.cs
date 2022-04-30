@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// 一定progress到達したら死ぬ？（一生の間の心拍回数は決まっている？）
@@ -46,10 +47,7 @@ public class Fish : MonoBehaviour
     get { return this.position - this._velocity; }
   }
 
-  void Start()
-  {
-
-  }
+  void Start() { }
 
   void Update()
   {
@@ -72,6 +70,66 @@ public class Fish : MonoBehaviour
   }
 
   /// <summary>
+  /// 周りを見わたして、周りの魚との位置関係から速度に変化をつける
+  /// boidのアルゴリズム
+  /// </summary>
+  /// <param name="others"></param>
+  public void LookAround(
+    List<Fish> others,
+    in float THRESHOLD_REFRECT,
+    in float POWER_REFRECT,
+    in float THRESHOLD_POS,
+    in float POWER_POS,
+    in float THRESHOLD_DIR,
+    in float POWER_DIR
+  )
+  {
+    Vector3 addVel = Vector3.zero;
+    float addDir = 0;
+    float dirCount = 1e-4f;
+    Vector3 addPos = Vector3.zero;
+    float posCount = 1e-4f;
+
+    for (int j = 0; j < others.Count; j++)
+    {
+      Fish other = others[j];
+      if (this.position == other.position) continue;
+      float dist = Vector3.Distance(this.position, other.position);
+
+      // 反発
+      if (dist < THRESHOLD_REFRECT)
+      {
+        addVel += (
+          -1f
+          * Vector3.Normalize(other.position - this.position)
+          * (THRESHOLD_REFRECT - dist) * 0.05f * POWER_REFRECT
+        );
+      }
+
+      // 位置平均
+      if (dist < THRESHOLD_POS)
+      {
+        addPos += other.position;
+        posCount++;
+      }
+
+      // 方向平均
+      if (dist < THRESHOLD_DIR)
+      {
+        addDir += other.direction;
+        dirCount++;
+      }
+    }
+    addPos /= posCount;
+    addDir /= dirCount;
+
+    addVel += Vector3.Normalize(addPos - this.position) * 0.001f * POWER_POS;
+    addVel += new Vector3(Mathf.Sin(addDir), Mathf.Cos(addDir), 0f) * 0.001f * POWER_DIR;
+
+    this._velocity += addVel;
+  }
+
+  /// <summary>
   /// 初期設定
   /// </summary>
   /// <param name="image"></param>
@@ -85,15 +143,6 @@ public class Fish : MonoBehaviour
     material.SetTexture("_MyTex", texture);
 
     this.bornTime = Time.time;
-  }
-
-  /// <summary>
-  /// 外部からの加速
-  /// </summary>
-  /// <param name="vel"></param>
-  public void AddVelocity(Vector3 vel)
-  {
-    this._velocity += vel;
   }
 
   /// <summary>

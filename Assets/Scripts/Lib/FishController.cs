@@ -62,45 +62,15 @@ public class FishController : MonoBehaviour
     for (int i = 0; i < this._fishes.Count; i++)
     {
       Fish me = this._fishes[i];
-      Vector3 addVel = Vector3.zero;
-      float addDir = 0;
-      float dirCount = 1e-4f;
-      Vector3 addPos = Vector3.zero;
-      float posCount = 1e-4f;
-
-      for (int j = 0; j < this._fishes.Count; j++)
-      {
-        if (i == j) continue;
-        Fish other = this._fishes[j];
-        float dist = Vector3.Distance(me.position, other.position);
-
-        // 反発
-        if (dist < this._THRESHOLD_REFRECT)
-        {
-          addVel += -1f * Vector3.Normalize(other.position - me.position) * (this._THRESHOLD_REFRECT - dist) * 0.05f * this._POWER_REFRECT;
-        }
-
-        // 位置平均
-        if (dist < this._THRESHOLD_POS)
-        {
-          addPos += other.position;
-          posCount++;
-        }
-
-        // 方向平均
-        if (dist < this._THRESHOLD_DIR)
-        {
-          addDir += other.direction;
-          dirCount++;
-        }
-      }
-      addPos /= posCount;
-      addDir /= dirCount;
-
-      addVel += Vector3.Normalize(addPos - me.position) * 0.001f * this._POWER_POS;
-      addVel += new Vector3(Mathf.Sin(addDir), Mathf.Cos(addDir), 0f) * 0.001f * this._POWER_DIR;
-
-      me.AddVelocity(addVel);
+      me.LookAround(
+        this._fishes,
+        this._THRESHOLD_REFRECT,
+        this._POWER_REFRECT,
+        this._THRESHOLD_POS,
+        this._POWER_POS,
+        this._THRESHOLD_DIR,
+        this._POWER_DIR
+      );
     }
   }
 }
