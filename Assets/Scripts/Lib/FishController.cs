@@ -73,4 +73,21 @@ public class FishController : MonoBehaviour
       );
     }
   }
+
+  public void CreateOne(
+    FishData data,
+    Vector3 pos
+  )
+  {
+    GameObject fish = Instantiate(_fishPrefab, this._stage.transform);
+    Fish script = fish.GetComponent<Fish>();
+    script.position = pos;
+    script.Born(
+      Regex.Replace(data.image, "data:image/(png|jpe??g);base64,", ""),
+      data.generation
+    );
+    this._fishes.Add(script);
+    this._fishManager.Add(data.id);
+  }
+
 }

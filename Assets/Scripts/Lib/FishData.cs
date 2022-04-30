@@ -1,20 +1,9 @@
-using System;
 using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 
 public class FishData
 {
-
-  public static JsonData DUMMY
-  {
-    get
-    {
-      JsonData data = JsonMapper.ToObject("{'id': '', 'points': [], 'parentIds': [\"hoge\", \"hoge\"], 'center': '{\"x\": 0, \"y\": 0}', 'generation': -1}");
-      return data;
-    }
-  }
-
   public string id;
   public int sortkey;
   public List<Vector2> points = new List<Vector2>();
