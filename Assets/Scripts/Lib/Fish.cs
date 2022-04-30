@@ -75,7 +75,7 @@ public class Fish : MonoBehaviour
   /// 初期設定
   /// </summary>
   /// <param name="image"></param>
-  public void Init(string image, int generation)
+  public void Born(string image, int generation)
   {
     // TODO: シェーダーに画像を渡す
     byte[] bytes = System.Convert.FromBase64String(image);
@@ -94,14 +94,6 @@ public class Fish : MonoBehaviour
   public void AddVelocity(Vector3 vel)
   {
     this._velocity += vel;
-  }
-
-  /// <summary>
-  /// 誕生
-  /// </summary>
-  public void Born()
-  {
-
   }
 
   /// <summary>
