@@ -48,8 +48,8 @@ public class FishController : MonoBehaviour
 
     for (int i = 0; i < this._fishes.Count; i++)
     {
-      Fish me = this._fishes[i];
-      me.LookAround(
+      Fish fish = this._fishes[i];
+      fish.LookAround(
         this._fishes,
         this._THRESHOLD_REFRECT,
         this._POWER_REFRECT,
@@ -61,6 +61,11 @@ public class FishController : MonoBehaviour
     }
   }
 
+  /// <summary>
+  /// 一体作成
+  /// </summary>
+  /// <param name="data"></param>
+  /// <param name="pos"></param>
   private void _CreateOne(
     FishData data,
     Vector3 pos

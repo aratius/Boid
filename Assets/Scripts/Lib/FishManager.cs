@@ -12,7 +12,7 @@ public class FishManager
 {
 
   private Dictionary<string, FishData> _data = new Dictionary<string, FishData>();
-  private List<string> _appearing = new List<string>();
+  private List<string> _appearing = new List<string>();  // 登場中の魚管理
 
   public async void Init()
   {
