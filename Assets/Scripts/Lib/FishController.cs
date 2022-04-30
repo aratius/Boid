@@ -45,7 +45,6 @@ public class FishController : MonoBehaviour
   {
 
     FishData fishData = this._fishManager.getOne();
-    Debug.Log(fishData);
     if (fishData != null)
     {
       GameObject fish = Instantiate(_fishPrefab, this._stage.transform);

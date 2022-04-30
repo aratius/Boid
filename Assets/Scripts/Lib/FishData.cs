@@ -16,6 +16,7 @@ public class FishData
   }
 
   public string id;
+  public int sortkey;
   public List<Vector2> points = new List<Vector2>();
   public Vector2 center;
   public List<string> parentIds = new List<string>();
@@ -25,6 +26,7 @@ public class FishData
   public FishData(JsonData json)
   {
     this.id = json["id"].ToString();
+    this.sortkey = (int)json["sortkey"];
     this.generation = JsonUtils.ToInt(json["generation"]);
     // // center
     JsonData c = JsonMapper.ToObject<JsonData>(json["center"].ToString());

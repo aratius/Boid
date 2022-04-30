@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using LitJson;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 /// <summary>
 /// 魚の種を管理する
@@ -24,6 +25,9 @@ public class FishManager
   /// <returns></returns>
   public FishData getOne()
   {
+    // データないとき
+    if (this._data.Keys.Count == 0) return null;
+
     // NOTE: 画面上に存在しないやつ
     // NOTE: 作成新しい順
     FishData fd = null;
