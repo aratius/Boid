@@ -41,22 +41,22 @@ public class FishData
   }
 
   public FishData(
-    in string _id,
-    in int _sortkey,
-    in List<Vector2> _points,
-    in Vector2 _center,
-    in List<string> _parentIds,
-    in int _generation,
-    in string _image
+    in string id,
+    in int sortkey,
+    in List<Vector2> points,
+    in Vector2 center,
+    in List<string> parentIds,
+    in int generation,
+    in string image
   )
   {
-    this.id = _id;
-    this.sortkey = _sortkey;
-    this.points = _points;
-    this.center = _center;
-    this.parentIds = _parentIds;
-    this.generation = _generation;
-    this.image = _image;
+    this.id = id;
+    this.sortkey = sortkey;
+    this.points = points;
+    this.center = center;
+    this.parentIds = parentIds;
+    this.generation = generation;
+    this.image = image;
   }
 
 }
