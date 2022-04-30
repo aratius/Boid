@@ -49,8 +49,8 @@ public class FishController : MonoBehaviour
     {
       GameObject fish = Instantiate(_fishPrefab, this._stage.transform);
       Fish script = fish.GetComponent<Fish>();
-      Vector3 randomPos = new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), 0f);
-      script.position = randomPos;
+      Vector3 pos = new Vector3(0f, MyStage.BOTTOM - 1f, 0f);
+      script.position = pos;
       script.Init(Regex.Replace(fishData.image, "data:image/(png|jpe??g);base64,", ""), fishData.generation);
       this._fishes.Add(script);
       this._fishManager.Add(fishData.id);

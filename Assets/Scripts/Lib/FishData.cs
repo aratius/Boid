@@ -28,7 +28,7 @@ public class FishData
     this.id = json["id"].ToString();
     this.sortkey = (int)json["sortkey"];
     this.generation = JsonUtils.ToInt(json["generation"]);
-    // // center
+    // center
     JsonData c = JsonMapper.ToObject<JsonData>(json["center"].ToString());
     this.center = new Vector2(JsonUtils.ToFloat(c["x"]), JsonUtils.ToFloat(c["y"]));
     // // parentIds

@@ -14,9 +14,9 @@ public class FishManager
   private Dictionary<string, FishData> _data = new Dictionary<string, FishData>();
   private List<string> _appearing = new List<string>();
 
-  public void Init()
+  public async void Init()
   {
-    this._UpdateFish();
+    await this._UpdateFish();
   }
 
   /// <summary>
