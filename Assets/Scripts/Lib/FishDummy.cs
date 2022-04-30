@@ -85,4 +85,14 @@ public class FishDummy
     new Vector2(162.51f, 8.630001f),
   };
 
+  public static FishData instance = new FishData(
+    FishDummy.id,
+    FishDummy.sortkey,
+    FishDummy.points,
+    FishDummy.center,
+    FishDummy.parentIds,
+    FishDummy.generation,
+    FishDummy.image
+  );
+
 }
