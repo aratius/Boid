@@ -51,7 +51,10 @@ public class FishController : MonoBehaviour
       Fish script = fish.GetComponent<Fish>();
       Vector3 pos = new Vector3(0f, MyStage.BOTTOM - 1f, 0f);
       script.position = pos;
-      script.Init(Regex.Replace(fishData.image, "data:image/(png|jpe??g);base64,", ""), fishData.generation);
+      script.Init(
+        Regex.Replace(fishData.image, "data:image/(png|jpe??g);base64,", ""),
+        fishData.generation
+      );
       this._fishes.Add(script);
       this._fishManager.Add(fishData.id);
     }

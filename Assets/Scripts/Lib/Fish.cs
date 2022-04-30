@@ -8,9 +8,9 @@ public class Fish : MonoBehaviour
 
   public FishData data;  // 魚情報
   public Sex sex = Sex.Male;  // 性別
-  public int age = 0;  // 年齢
   private float _progress = 0f;  // 経過
   private Vector3 _velocity = Vector3.zero;
+  private float bornTime;
 
   /// <summary>
   /// 位置
@@ -25,6 +25,15 @@ public class Fish : MonoBehaviour
   public float direction
   {
     get { return Mathf.Atan2(this._velocity.x, this._velocity.y); }
+  }
+
+  /// <summary>
+  /// 年齢
+  /// </summary>
+  /// <value></value>
+  public int age
+  {
+    get { return (int)Mathf.Round(Time.time - this.bornTime); }
   }
 
   /// <summary>
@@ -44,8 +53,7 @@ public class Fish : MonoBehaviour
 
   void Update()
   {
-    const float COEFFICIENT = 0.1f;  // 係数
-    this._progress += this._velocity.magnitude * COEFFICIENT;
+    this._progress += this._velocity.magnitude;
     Material material = this.GetComponent<SpriteRenderer>().material;
     material.SetFloat("_Progress", this._progress);
 
@@ -75,6 +83,8 @@ public class Fish : MonoBehaviour
     texture.LoadImage(bytes);
     Material material = this.GetComponent<SpriteRenderer>().material;
     material.SetTexture("_MyTex", texture);
+
+    this.bornTime = Time.time;
   }
 
   /// <summary>
@@ -99,7 +109,8 @@ public class Fish : MonoBehaviour
   /// </summary>
   public void Die()
   {
-
+    // await 死ぬアニメーション
+    Destroy(this.gameObject);
   }
 
   /// <summary>

@@ -54,7 +54,7 @@ Shader "Unlit/Fish"
                 float dist = length(uv);
                 const float RANGE = 0.1;
                 float far_bias = pow(dist / 0.25, 2.);
-                float add_angle = sin(_Progress * 50.) * far_bias * RANGE;
+                float add_angle = sin(_Progress * 5.) * far_bias * RANGE;
                 if(uv.y < 0.) add_angle *= -1.;
                 uv = fixed2(sin(angle + add_angle) * dist, cos(angle + add_angle) * dist);
 
