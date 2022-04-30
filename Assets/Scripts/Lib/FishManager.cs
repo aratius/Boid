@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using LitJson;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 /// <summary>
 /// 魚の種を管理する
@@ -28,8 +27,9 @@ public class FishManager
     // データないとき
     if (this._data.Keys.Count == 0) return null;
 
-    // NOTE: 画面上に存在しないやつ
-    // NOTE: 作成新しい順
+    // NOTE: 1. 画面上に存在しないやつ
+    // NOTE: 2. 作成新しい順
+    // NOTE: パスを通じて並び替えていって、最終的にindex[0]のものを返すようにしたらきれいだと思う
     FishData fd = null;
     foreach (string id in this._data.Keys)
     {

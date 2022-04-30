@@ -24,8 +24,6 @@ public class Api
     }
     else
     {
-      // NOTE: 長すぎて切り捨てられている可能性
-      Debug.Log(www.downloadHandler.text);
       JsonData data = JsonMapper.ToObject<JsonData>(www.downloadHandler.text.Trim());
       return data;
     }
