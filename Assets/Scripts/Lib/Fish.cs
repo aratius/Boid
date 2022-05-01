@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// 一定progress到達したら死ぬ？（一生の間の心拍回数は決まっている？）
@@ -8,6 +9,7 @@ public class Fish : MonoBehaviour
 {
 
   public FishData data;  // 魚情報
+  public UnityEvent<Fish> onDie;  // 死亡イベント
   public Sex sex = Sex.Male;  // 性別
   private float _progress = 0f;  // 経過
   private Vector3 _velocity = Vector3.zero;
@@ -47,7 +49,10 @@ public class Fish : MonoBehaviour
     get { return this.position - this._velocity; }
   }
 
-  void Start() { }
+  void Start()
+  {
+    this.onDie = new UnityEvent<Fish>();
+  }
 
   void Update()
   {
@@ -84,7 +89,7 @@ public class Fish : MonoBehaviour
     in float POWER_DIR
   )
   {
-    Vector3 addVel = BoidAlgorithum.getVelociry(
+    this._velocity += BoidAlgorithum.getVelociry(
       this,
       others,
       THRESHOLD_REFRECT,
@@ -94,8 +99,6 @@ public class Fish : MonoBehaviour
       THRESHOLD_DIR,
       POWER_DIR
     );
-
-    this._velocity += addVel;
   }
 
   /// <summary>
@@ -104,7 +107,6 @@ public class Fish : MonoBehaviour
   /// <param name="image"></param>
   public void Born(string image, int generation)
   {
-    // TODO: シェーダーに画像を渡す
     byte[] bytes = System.Convert.FromBase64String(image);
     Texture2D texture = new Texture2D(1, 1);
     texture.LoadImage(bytes);
@@ -119,8 +121,9 @@ public class Fish : MonoBehaviour
   /// </summary>
   public void Die()
   {
-    // await 死ぬアニメーション
+    // TODO: await 死ぬアニメーション
     Destroy(this.gameObject);
+    this.onDie.Invoke(this);
   }
 
   /// <summary>
