@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Text.RegularExpressions;
 
 /// <summary>
 /// 一定progress到達したら死ぬ？（一生の間の心拍回数は決まっている？）
@@ -10,7 +11,7 @@ public class Fish : MonoBehaviour
 
   public FishData data;  // 魚情報
   public UnityEvent<Fish> onDie;  // 死亡イベント
-  public Sex sex = Sex.Male;  // 性別
+  public Sex sex;  // 性別
   private float _progress = 0f;  // 経過
   private Vector3 _velocity = Vector3.zero;
   private float bornTime;
@@ -122,8 +123,8 @@ public class Fish : MonoBehaviour
   public void Die()
   {
     // TODO: await 死ぬアニメーション
-    Destroy(this.gameObject);
     this.onDie.Invoke(this);
+    Destroy(this.gameObject);
   }
 
   /// <summary>

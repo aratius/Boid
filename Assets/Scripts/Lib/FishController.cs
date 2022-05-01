@@ -11,7 +11,7 @@ public class FishController : MonoBehaviour
 
   [SerializeField] private GameObject _stage;
   [SerializeField] private GameObject _fishPrefab;
-  [SerializeField] private int _fishCount = 100;
+  [SerializeField] private int _FISH_COUNT = 100;
 
   [Header("反発")]
   [SerializeField, Range(0.01f, 5f)] private float _THRESHOLD_REFRECT = 0.5f;
@@ -45,7 +45,7 @@ public class FishController : MonoBehaviour
     FishData fishData = this._fishManager.getOne();
     if (fishData != null)
     {
-      if (this._fishes.Count < this._fishCount)
+      if (this._fishes.Count < this._FISH_COUNT)
       {
         Vector3 pos = new Vector3(0f, MyStage.BOTTOM - 1f, 0f);
         this._CreateOne(fishData, pos);
@@ -80,10 +80,7 @@ public class FishController : MonoBehaviour
     GameObject fish = Instantiate(_fishPrefab, this._stage.transform);
     Fish script = fish.GetComponent<Fish>();
     script.position = pos;
-    script.Born(
-      Regex.Replace(data.image, "data:image/(png|jpe??g);base64,", ""),
-      data.generation
-    );
+    script.Born(data);
     this._fishes.Add(script);
     this._fishManager.Add(data.id);
   }
