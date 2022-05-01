@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class FishDummy
 {
@@ -84,7 +84,6 @@ public class FishDummy
     new Vector2(150f, 8.630001f),
     new Vector2(162.51f, 8.630001f),
   };
-
   public static FishData instance = new FishData(
     FishDummy.id,
     FishDummy.sortkey,

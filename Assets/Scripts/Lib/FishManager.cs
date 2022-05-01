@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using LitJson;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
+using LitJson;
 
 /// <summary>
 /// 魚の種を管理する
