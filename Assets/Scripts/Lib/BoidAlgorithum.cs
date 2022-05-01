@@ -7,8 +7,8 @@ using System.Collections.Generic;
 public class BoidAlgorithum
 {
   public static Vector3 getVelociry(
-    in Fish me,
-    in List<Fish> others,
+    in BoidModel me,
+    in List<BoidModel> others,
     in float THRESHOLD_REFRECT,
     in float POWER_REFRECT,
     in float THRESHOLD_POS,
@@ -25,7 +25,7 @@ public class BoidAlgorithum
 
     for (int j = 0; j < others.Count; j++)
     {
-      Fish other = others[j];
+      BoidModel other = others[j];
       if (me.position == other.position) continue;
       float dist = Vector3.Distance(me.position, other.position);
 

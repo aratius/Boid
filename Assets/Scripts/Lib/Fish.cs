@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 /// <summary>
 /// 一定progress到達したら死ぬ？（一生の間の心拍回数は決まっている？）
 /// </summary>
-public class Fish : MonoBehaviour
+public class Fish : BoidModel
 {
 
   public FishData data;  // 魚情報
@@ -20,13 +20,13 @@ public class Fish : MonoBehaviour
   /// 位置
   /// </summary>
   /// <value></value>
-  public Vector3 position
+  public override Vector3 position
   {
     get { return this.transform.position; }
     set { this.transform.position = value; }
   }
 
-  public float direction
+  public override float direction
   {
     get { return Mathf.Atan2(this._velocity.x, this._velocity.y); }
   }
@@ -88,8 +88,8 @@ public class Fish : MonoBehaviour
   )
   {
     this._velocity += BoidAlgorithum.getVelociry(
-      this,
-      others,
+      this as BoidModel,
+      others.ConvertAll<BoidModel>(new System.Converter<Fish, BoidModel>((Fish f) => f as BoidModel)),
       THRESHOLD_REFRECT,
       POWER_REFRECT,
       THRESHOLD_POS,
