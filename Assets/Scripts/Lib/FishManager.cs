@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using LitJson;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 /// <summary>
 /// 魚の種を管理する
@@ -24,21 +26,26 @@ public class FishManager
   /// <returns></returns>
   public FishData getOne()
   {
-    // データないとき
-    if (this._data.Keys.Count == 0) return null;
+    // データないときはnull返す
+    if (this._data.Count == 0) return null;
 
-    // NOTE: 1. 画面上に存在しないやつ
-    // NOTE: 2. 作成新しい順
-    // NOTE: パスを通じて並び替えていって、最終的にindex[0]のものを返すようにしたらきれいだと思う
-    FishData fd = null;
-    foreach (string id in this._data.Keys)
-    {
-      if (!this._appearing.Contains(id))
-      {
-        fd = this._data[id];
-      }
-    }
-    return fd;
+    // Listを作る
+    List<FishData> dataList = new List<FishData>();
+    foreach (string id in this._data.Keys) { dataList.Add(this._data[id]); }
+
+    // PRIORITY1 画面上に存在しないやつ
+    Comparison<FishData> compareByAppearing = new Comparison<FishData>(this._CompareByAppearing);
+    // PRIORITY2 作成新しい順
+    Comparison<FishData> compareByCreation = new Comparison<FishData>(this._CompareByCreation);
+
+    // NOTE: Sortは優先度低い順に
+    // PRIORITY2 作成新しい順
+    dataList.Sort(compareByCreation);
+    // PRIORITY1 画面上に存在しないやつ
+    dataList.Sort(compareByAppearing);
+
+    // 最初のものを返す
+    return dataList[0];
   }
 
   /// <summary>
@@ -79,4 +86,38 @@ public class FishManager
       }
     }
   }
+
+  /// <summary>
+  /// 作成順にソート
+  /// </summary>
+  /// <param name="fish1"></param>
+  /// <param name="fish2"></param>
+  /// <returns></returns>
+  private int _CompareByCreation(FishData fish1, FishData fish2)
+  {
+    // sortkeyが大きいほうが最新 => return -1
+    if (fish1.sortkey > fish2.sortkey) return -1;
+    else return 1;
+  }
+
+  /// <summary>
+  /// 画面上にいる匹数でソート
+  /// </summary>
+  /// <param name="fish1"></param>
+  /// <param name="fish2"></param>
+  /// <returns></returns>
+  private int _CompareByAppearing(FishData fish1, FishData fish2)
+  {
+    int cnt1 = 0;
+    int cnt2 = 0;
+    foreach (string id in this._appearing)
+    {
+      if (fish1.id == id) cnt1++;
+      if (fish2.id == id) cnt2++;
+    }
+    if (cnt1 == cnt2) return 0;
+    else if (cnt1 < cnt2) return -1;  // 登場回数が少ない方を前に => return -1
+    else return 1;
+  }
+
 }
