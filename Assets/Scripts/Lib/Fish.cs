@@ -10,7 +10,7 @@ public class Fish : MonoBehaviour
 {
 
   public FishData data;  // 魚情報
-  public UnityEvent<Fish> onDie;  // 死亡イベント
+  public UnityEvent<Fish> onDie = new UnityEvent<Fish>();  // 死亡イベント
   public Sex sex;  // 性別
   private float _progress = 0f;  // 経過
   private Vector3 _velocity = Vector3.zero;
@@ -50,10 +50,7 @@ public class Fish : MonoBehaviour
     get { return this.position - this._velocity; }
   }
 
-  void Start()
-  {
-    this.onDie = new UnityEvent<Fish>();
-  }
+  void Start() { }
 
   void Update()
   {
@@ -73,6 +70,7 @@ public class Fish : MonoBehaviour
     this.transform.rotation = Quaternion.Euler(euler);
 
     this._velocity *= 0.99f;
+
   }
 
   /// <summary>
@@ -132,7 +130,6 @@ public class Fish : MonoBehaviour
   {
     // TODO: await 死ぬアニメーション
     this.onDie.Invoke(this);
-    Destroy(this.gameObject);
   }
 
   /// <summary>

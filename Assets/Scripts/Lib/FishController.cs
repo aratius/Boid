@@ -75,12 +75,25 @@ public class FishController : MonoBehaviour
     Vector3 pos
   )
   {
-    GameObject fish = Instantiate(_fishPrefab, this._stage.transform);
-    Fish script = fish.GetComponent<Fish>();
-    script.position = pos;
-    script.Born(data);
-    this._fishes.Add(script);
+    GameObject go = Instantiate(_fishPrefab, this._stage.transform);
+    Fish fish = go.GetComponent<Fish>();
+    fish.position = pos;
+    fish.onDie.AddListener(this._OnDie);
+    fish.Born(data);
+    this._fishes.Add(fish);
     this._fishManager.Add(data.id);
+  }
+
+  /// <summary>
+  /// 魚の死
+  /// </summary>
+  /// <param name="fish"></param>
+  private void _OnDie(Fish fish)
+  {
+    this._fishes.Remove(fish);
+    this._fishManager.Remove(fish.data.id);
+    fish.onDie.RemoveListener(this._OnDie);
+    Destroy(fish.gameObject);
   }
 
 }
