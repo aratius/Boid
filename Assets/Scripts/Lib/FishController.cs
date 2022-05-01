@@ -70,16 +70,13 @@ public class FishController : MonoBehaviour
   /// </summary>
   /// <param name="data"></param>
   /// <param name="pos"></param>
-  private void _CreateOne(
-    FishData data,
-    Vector3 pos
-  )
+  private void _CreateOne(FishData data, Vector3 pos)
   {
     GameObject go = Instantiate(_fishPrefab, this._stage.transform);
     Fish fish = go.GetComponent<Fish>();
     fish.position = pos;
-    fish.onDie.AddListener(this._OnDie);
     fish.Born(data);
+    fish.onDie.AddListener(this._OnDie);
     this._fishes.Add(fish);
     this._fishManager.Add(data.id);
   }
@@ -90,10 +87,10 @@ public class FishController : MonoBehaviour
   /// <param name="fish"></param>
   private void _OnDie(Fish fish)
   {
+    Destroy(fish.gameObject);
+    fish.onDie.RemoveListener(this._OnDie);
     this._fishes.Remove(fish);
     this._fishManager.Remove(fish.data.id);
-    fish.onDie.RemoveListener(this._OnDie);
-    Destroy(fish.gameObject);
   }
 
 }
