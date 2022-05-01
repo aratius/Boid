@@ -78,7 +78,7 @@ public class Fish : MonoBehaviour
   /// </summary>
   /// <param name="others"></param>
   public void LookAround(
-    List<Fish> others,
+    in List<Fish> others,
     in float THRESHOLD_REFRECT,
     in float POWER_REFRECT,
     in float THRESHOLD_POS,

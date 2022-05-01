@@ -7,8 +7,8 @@ using System.Collections.Generic;
 public class BoidAlgorithum
 {
   public static Vector3 getVelociry(
-    Fish me,
-    List<Fish> others,
+    in Fish me,
+    in List<Fish> others,
     in float THRESHOLD_REFRECT,
     in float POWER_REFRECT,
     in float THRESHOLD_POS,
