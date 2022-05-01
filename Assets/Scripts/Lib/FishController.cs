@@ -40,10 +40,10 @@ public class FishController : MonoBehaviour
   void Update()
   {
 
-    FishData fishData = this._fishManager.getOne();
-    if (fishData != null)
+    if (this._fishes.Count < this._FISH_COUNT)
     {
-      if (this._fishes.Count < this._FISH_COUNT)
+      FishData fishData = this._fishManager.getOne();
+      if (fishData != null)
       {
         Vector3 pos = new Vector3(0f, MyStage.BOTTOM - 1f, 0f);
         this._CreateOne(fishData, pos);
