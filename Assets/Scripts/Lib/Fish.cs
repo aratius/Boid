@@ -106,14 +106,22 @@ public class Fish : MonoBehaviour
   /// 初期設定
   /// </summary>
   /// <param name="image"></param>
-  public void Born(string image, int generation)
+  public void Born(FishData d)
   {
+    this.data = d;
+
+    // 画像テクスチャ
+    string image = Regex.Replace(this.data.image, "data:image/(png|jpe??g);base64,", "");
     byte[] bytes = System.Convert.FromBase64String(image);
     Texture2D texture = new Texture2D(1, 1);
     texture.LoadImage(bytes);
     Material material = this.GetComponent<SpriteRenderer>().material;
     material.SetTexture("_MyTex", texture);
 
+    // 性別
+    this.sex = Random.Range(0f, 1f) < 0.5f ? Sex.Male : Sex.Female;
+
+    // 出生時間
     this.bornTime = Time.time;
   }
 
