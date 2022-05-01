@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
+/// <summary>
+/// 魚のGameObjectをまとめるクラス
+/// </summary>
 public class FishController : MonoBehaviour
 {
 

@@ -6,18 +6,18 @@ using UnityEngine;
 
 /// <summary>
 /// 魚の種を管理する
-/// getOneメソッドを呼ばれたときに、いま作成するべき優先度のアルゴリズムから一匹の魚を返す
-/// イベント駆動にしたい
+/// getOneメソッドを呼ばれたときに、いま作成するべき優先度のアルゴリズムから一匹の魚を返すか
 /// </summary>
 public class FishManager
 {
 
   private Dictionary<string, FishData> _data = new Dictionary<string, FishData>();
   private List<string> _appearing = new List<string>();  // 登場中の魚管理
+  private bool _isLooping = false;
 
-  public async void Init()
+  public void Init()
   {
-    await this._UpdateFish();
+    this._UpdateLoop();
   }
 
   /// <summary>
@@ -64,6 +64,18 @@ public class FishManager
   public void Remove(string id)
   {
     this._appearing.Remove(id);
+  }
+
+  private async void _UpdateLoop()
+  {
+    if (this._isLooping) return;
+    this._isLooping = true;
+
+    while (true)
+    {
+      await this._UpdateFish();
+      await UniTask.Delay(10000);
+    }
   }
 
   /// <summary>
