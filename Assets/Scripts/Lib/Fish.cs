@@ -133,7 +133,7 @@ public class Fish : BoidModel
     this.bornTime = Time.time;
 
     // 身長
-    this.size = Random.Range(0.4f, 0.6f);
+    this.size = Random.Range(0.5f, 0.8f);
   }
 
   /// <summary>
