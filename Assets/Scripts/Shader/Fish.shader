@@ -64,7 +64,7 @@ Shader "Unlit/Fish"
 
                 fixed4 col = tex2D(_MyTex, uv);
                 if(col.r == 0.) col.a = 0.;
-                else col.rgb = fixed3(1., 1., 1.);
+                else col.rgb = fixed3(0.8, 0.8, 0.8);
                 return col;
             }
             ENDCG
