@@ -2,7 +2,8 @@ Shader "Hidden/Display"
 {
     Properties
     {
-        _MyTex ("Texture", 2D) = "white" {}
+        [NoScaleOffset] _MainTex ("Texture", 2D) = "white" {}
+        [NoScaleOffset] _MyTex ("Texture", 2D) = "white" {}
         _MaxIter ("MaxIter", int) = 0
         _Refrection ("Refrection", Range(0, 3)) = 0
         _Brightness ("Brightness", Range(0, 3)) = 0

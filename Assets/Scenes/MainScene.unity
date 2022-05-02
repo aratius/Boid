@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 519420029}
   m_Layer: 0
   m_Name: RTCamera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -405,10 +405,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1089825425}
   - component: {fileID: 1089825427}
-  - component: {fileID: 1089825426}
   m_Layer: 0
-  m_Name: OutCamera
-  m_TagString: MainCamera
+  m_Name: OutputCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -427,14 +426,6 @@ Transform:
   m_Father: {fileID: 666223546}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &1089825426
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1089825424}
-  m_Enabled: 1
 --- !u!20 &1089825427
 Camera:
   m_ObjectHideFlags: 0

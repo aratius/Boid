@@ -4,6 +4,7 @@ Shader "Unlit/Fish"
 {
     Properties
     {
+        [NoScaleOffset] _MainTex ("Texture", 2D) = "white" {}
         [NoScaleOffset] _MyTex ("Texture", 2D) = "white" {}
         _Progress ("Progress", float) = 0
     }
@@ -64,7 +65,7 @@ Shader "Unlit/Fish"
 
                 fixed4 col = tex2D(_MyTex, uv);
                 if(col.r == 0.) col.a = 0.;
-                else col.rgb = fixed3(0.8, 0.8, 0.8);
+                else col.rgb = fixed3(0.65, 0.65, 0.65);
                 return col;
             }
             ENDCG
