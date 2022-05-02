@@ -53,7 +53,7 @@ Shader "Unlit/Fish"
 
                 float angle = atan2(uv.x, uv.y);
                 float dist = length(uv);
-                const float RANGE = 0.1;
+                const float RANGE = 0.15;
                 float far_bias = pow(dist / 0.25, 2.);
                 float add_angle = sin(_Progress * 5.) * far_bias * RANGE;
                 if(uv.y < 0.) add_angle *= -1.;
