@@ -70,8 +70,9 @@ public class Fish : BoidModel
     euler.z = -this.direction * 180f / Mathf.PI;
     this.transform.rotation = Quaternion.Euler(euler);
 
-    // サイズ 0-20歳で 0.4 - 1のlinear
-    float scale = Mathf.Min((1f - 0.4f) / 20f * this.age + 0.4f, 1f);
+    // サイズ 0-20歳で 0.6 - 1のlinear
+    float[] range = new float[] { 0.6f, 1f };
+    float scale = Mathf.Min((range[1] - range[0]) / 20f * this.age + range[0], 1f);
     this.transform.localScale = Vector3.one * scale * this.size;
 
     this._velocity *= 0.99f;
