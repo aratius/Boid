@@ -4,15 +4,16 @@ Shader "Hidden/Display"
     {
         _MyTex ("Texture", 2D) = "white" {}
         _MaxIter ("MaxIter", int) = 0
-        _Refrection ("Refrection", float) = 0
-        _Brightness ("Brightness", float) = 0
-        _Fineness ("Fitness", float) = 0
-        _Speed ("Speed", float) = 0
-        _Speed2 ("Speed2", float) = 0
-        _Power ("Power", float) = 0
-        _DirectionX ("DirectionX", float) = 0
-        _DirectionY ("DirectionY", float) = 0
+        _Refrection ("Refrection", Range(0, 3)) = 0
+        _Brightness ("Brightness", Range(0, 3)) = 0
+        _Fineness ("Fitness", Range(0, 30)) = 0
+        _Speed ("Speed", Range(0, 10)) = 0
+        _Speed2 ("Speed2", Range(0, 10)) = 0
+        _Power ("Power", Range(0, 3)) = 0
+        _DirectionX ("DirectionX", Range(0, 3)) = 0
+        _DirectionY ("DirectionY", Range(0, 3)) = 0
         _Color ("Color", Color) = (1,1,1,1)
+        _Resolution ("Resolution", Vector) = (1024, 500, 0, 0)
     }
     SubShader
     {
@@ -58,12 +59,13 @@ Shader "Hidden/Display"
             float _DirectionX;
             float _DirectionY;
             fixed4 _Color;
+            fixed4 _Resolution;
 
             fixed4 frag (v2f i) : SV_Target
             {
                 float time = _Time * 30;
 
-                half2 sp = i.uv; // surfacePosition は i.uv で置き換える
+                half2 sp = i.uv * normalize(_Resolution.xy); // surfacePosition は i.uv で置き換える
                 half2 p = sp * _Fineness - half2(_Fineness * 1.3, _Fineness * 1.3);
                 half2 _i = p;
                 float c = _Refrection;
