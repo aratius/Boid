@@ -30,7 +30,7 @@ public class FishController : MonoBehaviour
     for (int i = 0; i < 10; i++)
     {
       Vector3 randomPos = new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), 0f);
-      this._CreateOne(FishDummy.instance, randomPos);
+      this._CreateOne(FishDummy.instance, randomPos, 20);
     }
 
     this._fishManager.Init();
@@ -70,12 +70,13 @@ public class FishController : MonoBehaviour
   /// </summary>
   /// <param name="data"></param>
   /// <param name="pos"></param>
-  private void _CreateOne(FishData data, Vector3 pos)
+  private void _CreateOne(FishData data, Vector3 pos, int age = -1)
   {
     GameObject go = Instantiate(_fishPrefab, this._stage.transform);
     Fish fish = go.GetComponent<Fish>();
     fish.position = pos;
     fish.Born(data);
+    if (age != 1) fish.SetAge(age);
     fish.onDie.AddListener(this._OnDie);
     this._fishes.Add(fish);
     this._fishManager.Add(data.id);

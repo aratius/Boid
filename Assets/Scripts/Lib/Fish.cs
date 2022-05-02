@@ -78,6 +78,11 @@ public class Fish : BoidModel
     this._velocity *= 0.99f;
   }
 
+  public void SetAge(int _age)
+  {
+    this.bornTime = Mathf.Round(Time.time - _age);
+  }
+
   /// <summary>
   /// 周りを見わたして、周りの魚との位置関係から速度に変化をつける
   /// boidのアルゴリズム
