@@ -96,7 +96,7 @@ public class Fish : BoidModel
       POWER_POS,
       THRESHOLD_DIR,
       POWER_DIR
-    );
+    ) * Time.deltaTime * 90f;
   }
 
   /// <summary>
