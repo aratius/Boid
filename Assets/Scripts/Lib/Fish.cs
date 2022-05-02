@@ -12,6 +12,7 @@ public class Fish : BoidModel
   public FishData data;  // 魚情報
   public UnityEvent<Fish> onDie = new UnityEvent<Fish>();  // 死亡イベント
   public Sex sex;  // 性別
+  public float size = 0f;  // 身長
   private float _progress = 0f;  // 経過
   private Vector3 _velocity = Vector3.zero;
   private float bornTime;
@@ -69,6 +70,10 @@ public class Fish : BoidModel
     euler.z = -this.direction * 180f / Mathf.PI;
     this.transform.rotation = Quaternion.Euler(euler);
 
+    // サイズ 0-20歳で 0.4 - 1のlinear
+    float scale = Mathf.Min((1f - 0.4f) / 20f * this.age + 0.4f, 1f);
+    this.transform.localScale = Vector3.one * scale * this.size;
+
     this._velocity *= 0.99f;
   }
 
@@ -120,6 +125,9 @@ public class Fish : BoidModel
 
     // 出生時間
     this.bornTime = Time.time;
+
+    // 身長
+    this.size = Random.Range(0.4f, 0.6f);
   }
 
   /// <summary>
