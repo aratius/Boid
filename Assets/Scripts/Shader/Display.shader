@@ -89,13 +89,14 @@ Shader "Hidden/Display"
 
                 // _MyTex にエフェクトを適用させるために uv に変形を加えつつ波のエフェクトを tex に加算する
                 // _Color プロパティを使用してエディタから色味を変更できるようにする
-                half3 _col = half3(c * c * c * c, c * c * c * c, c * c * c * c) + half3(_Color.r, _Color.g, _Color.b);
+                float cccc = pow(c, 6.);
+                half3 _col = half3(cccc, cccc, cccc) + half3(_Color.r, _Color.g, _Color.b);
                 half4 tex = tex2D(_MyTex, i.uv + c * .025);
                 tex.rgb += _col * 0.1;
                 return tex;
 
                 // 上の三行をコメントアウトして下記を有効にすると移植元の GLSL と同じような感じになる
-                //  half3 _col = half3(c * c * c * c, c * c * c * c, c * c * c * c) + half3(0.0, 0.4, 0.55);
+                //  half3 _col = half3(cccc, cccc, cccc) + half3(0.0, 0.4, 0.55);
                 //  return half4(_col, 1);
             }
             ENDCG
