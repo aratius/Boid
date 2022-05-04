@@ -7,6 +7,8 @@ Shader "Unlit/Fish"
         [NoScaleOffset] _MainTex ("Texture", 2D) = "white" {}
         [NoScaleOffset] _MyTex ("Texture", 2D) = "white" {}
         _Progress ("Progress", float) = 0
+        _IllProgress ("IllProgress", float) = 0  // 病気 0-1 1で死亡
+        _PainProgress ("PainProgress", float) = 0  // 身体的な傷 0-1 1で死亡
     }
     SubShader
     {
@@ -36,6 +38,8 @@ Shader "Unlit/Fish"
 
             sampler2D _MyTex;
             fixed _Progress;
+            fixed _IllProgress = 0.;
+            fixed _PainProgress = 0.;
 
             v2f vert (appdata v)
             {
@@ -64,8 +68,11 @@ Shader "Unlit/Fish"
                 if(uv.x > 1. || uv.x < 0. || uv.y > 1. || uv.y < 0.) discard;
 
                 fixed4 col = tex2D(_MyTex, uv);
-                if(col.r == 0.) col.a = 0.;
-                else col.rgb = fixed3(0.65, 0.65, 0.65);
+                const fixed4 NORMAL = fixed4(0.65, 0.65, 0.65, 1.);
+                const fixed4 ILL = fixed4(88./255., 158./255., 166./255., 0.);
+
+                if(col.r == 0.) discard;
+                else col = lerp(NORMAL, ILL, _IllProgress);
                 return col;
             }
             ENDCG

@@ -183,11 +183,11 @@ MonoBehaviour:
   _fishPrefab: {fileID: 6642237118037010037, guid: d2812c31d81934dda94c6419fc25b6f8, type: 3}
   _FISH_COUNT: 50
   _THRESHOLD_REFRECT: 0.7
-  _POWER_REFRECT: 2
-  _THRESHOLD_POS: 1.3
-  _POWER_POS: 0.3
-  _THRESHOLD_DIR: 1
-  _POWER_DIR: 0.3
+  _POWER_REFRECT: 1.8
+  _THRESHOLD_POS: 2
+  _POWER_POS: 0.4
+  _THRESHOLD_DIR: 1.8
+  _POWER_DIR: 0.4
 --- !u!1 &225485297
 GameObject:
   m_ObjectHideFlags: 0

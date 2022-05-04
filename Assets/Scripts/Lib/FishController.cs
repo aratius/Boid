@@ -88,7 +88,7 @@ public class FishController : MonoBehaviour
   /// <param name="fish"></param>
   private void _OnDie(Fish fish)
   {
-    Destroy(fish.gameObject);
+    fish.Cremate();
     fish.onDie.RemoveListener(this._OnDie);
     this._fishes.Remove(fish);
     this._fishManager.Remove(fish.data.id);

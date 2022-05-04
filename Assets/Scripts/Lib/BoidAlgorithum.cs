@@ -30,12 +30,12 @@ public class BoidAlgorithum
       float dist = Vector3.Distance(me.position, other.position);
 
       // 反発
-      if (dist < THRESHOLD_REFRECT)
+      if (dist < THRESHOLD_REFRECT * other.size)
       {
         addVel += (
-          -1f
+          -1f  // 逆方向
           * Vector3.Normalize(other.position - me.position)
-          * (THRESHOLD_REFRECT - dist) * 0.05f * POWER_REFRECT
+          * (THRESHOLD_REFRECT * other.size - dist) * 0.05f * POWER_REFRECT
         );
       }
 

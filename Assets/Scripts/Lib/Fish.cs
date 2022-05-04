@@ -2,6 +2,8 @@
 using UnityEngine.Events;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 
 /// <summary>
 /// 一定progress到達したら死ぬ？（一生の間の心拍回数は決まっている？）
@@ -12,10 +14,15 @@ public class Fish : BoidModel
   public FishData data;  // 魚情報
   public UnityEvent<Fish> onDie = new UnityEvent<Fish>();  // 死亡イベント
   public Sex sex;  // 性別
-  public float size = 0f;  // 身長
+  public float _size = 0f;  // 身長
+  private Material _material;
   private float _progress = 0f;  // 経過
   private Vector3 _velocity = Vector3.zero;
   private float bornTime;
+  private float _illnessToSave;
+  private float _painToSave;
+  private bool _isIllness = false;  // 病気
+  private Tween _illnessTween;
 
   /// <summary>
   /// 位置
@@ -30,6 +37,12 @@ public class Fish : BoidModel
   public override float direction
   {
     get { return Mathf.Atan2(this._velocity.x, this._velocity.y); }
+  }
+
+  public override float size
+  {
+    get { return this._size; }
+    set { this._size = value; }
   }
 
   /// <summary>
@@ -51,13 +64,48 @@ public class Fish : BoidModel
     get { return this.position - this._velocity; }
   }
 
-  void Start() { }
+  /// <summary>
+  /// 病気度合い
+  /// </summary>
+  /// <value></value>
+  private float _illness
+  {
+    set
+    {
+      if (this._illnessTween != null) this._illnessTween.Kill();
+      this._illnessTween = DOTween.To(
+        () => this._illnessToSave,
+        (v) =>
+        {
+          this._illnessToSave = v;
+          this._material.SetFloat("_IllProgress", this._illnessToSave);
+          if (this._illnessToSave >= 1f) this.Die();
+        },
+        value,
+        0.3f
+      );
+    }
+    get { return this._illnessToSave; }
+  }
+
+  /// <summary>
+  /// 身体的な傷
+  /// </summary>
+  /// <value></value>
+  private float _pain
+  {
+    get { return this._painToSave; }
+  }
+
+  void Start()
+  {
+    this._material = this.GetComponent<SpriteRenderer>().material;
+  }
 
   void Update()
   {
     this._progress += this._velocity.magnitude;
-    Material material = this.GetComponent<SpriteRenderer>().material;
-    material.SetFloat("_Progress", this._progress);
+    this._material.SetFloat("_Progress", this._progress);
 
     // 位置更新
     Vector3 pos = this.position;
@@ -74,6 +122,10 @@ public class Fish : BoidModel
     float[] range = new float[] { 0.6f, 1f };
     float scale = Mathf.Min((range[1] - range[0]) / 20f * this.age + range[0], 1f);
     this.transform.localScale = Vector3.one * scale * this.size;
+
+    float rand = Random.Range(0f, 1f);
+    float illProbability = Time.deltaTime / 10;  // 10sに一回病気になるくらいの感覚
+    if (rand < illProbability) this.GetIll();
 
     this._velocity *= 0.99f;
   }
@@ -98,6 +150,9 @@ public class Fish : BoidModel
     in float POWER_DIR
   )
   {
+    float confficient = (1f - this._illness);
+    confficient = Mathf.Pow(confficient, 1.2f);
+
     this._velocity += BoidAlgorithum.getVelociry(
       this as BoidModel,
       others.ConvertAll<BoidModel>(new System.Converter<Fish, BoidModel>((Fish f) => f as BoidModel)),
@@ -107,7 +162,7 @@ public class Fish : BoidModel
       POWER_POS,
       THRESHOLD_DIR,
       POWER_DIR
-    ) * Time.deltaTime * 90f;
+    ) * Time.deltaTime * 90f * confficient;
   }
 
   /// <summary>
@@ -133,7 +188,7 @@ public class Fish : BoidModel
     this.bornTime = Time.time;
 
     // 身長
-    this.size = Random.Range(0.5f, 0.8f);
+    this.size = Random.Range(0f, 1f) < 0.95f ? Random.Range(0.5f, 0.8f) : Random.Range(1.5f, 2f);
   }
 
   /// <summary>
@@ -143,6 +198,16 @@ public class Fish : BoidModel
   {
     // TODO: await 死ぬアニメーション
     this.onDie.Invoke(this);
+  }
+
+  /// <summary>
+  /// 火葬する
+  /// </summary>
+  public void Cremate()
+  {
+    Destroy(this.gameObject);
+    Destroy(this._material);
+    Destroy(this._material.GetTexture("_MyTex"));
   }
 
   /// <summary>
@@ -195,6 +260,7 @@ public class Fish : BoidModel
   public void NetfrixAndChill(Fish with)
   {
     // 結婚しているときにこのイベントが発生したら妊娠する可能性がある
+    // TODO: tweenでprogressを素早く動かす
   }
 
   /// <summary>
@@ -218,9 +284,25 @@ public class Fish : BoidModel
   /// <summary>
   /// 病気になる
   /// </summary>
-  public void GetIll()
+  public async void GetIll()
   {
-    // 低確率で死亡
+    if (this._isIllness) return;
+    this._isIllness = true;
+
+    float deathProbability = 0.3f;  // 死亡確率
+
+    while (true)
+    {
+      int waitTime = Random.Range(300, 5000);
+      await UniTask.Delay(waitTime);
+
+      deathProbability += Random.Range(-0.4f, 0.4f);
+      this._illness = Mathf.Max(Mathf.Min(deathProbability, 1f), 0f);
+
+      if (deathProbability <= 0f || deathProbability >= 1f) break;  // 病気完治
+    }
+
+    this._isIllness = false;
   }
 
 }
