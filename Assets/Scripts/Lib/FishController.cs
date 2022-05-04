@@ -80,6 +80,9 @@ public class FishController : MonoBehaviour
     fish.onDie.AddListener(this._OnDie);
     this._fishes.Add(fish);
     this._fishManager.Add(data.id);
+
+    // グローバルにイベント発火
+    FishEvents.onBorn.Invoke(fish.data.id);
   }
 
   /// <summary>
@@ -92,6 +95,9 @@ public class FishController : MonoBehaviour
     fish.onDie.RemoveListener(this._OnDie);
     this._fishes.Remove(fish);
     this._fishManager.Remove(fish.data.id);
+
+    // グローバルにイベント発火
+    FishEvents.onDie.Invoke(fish.data.id);
   }
 
 }
