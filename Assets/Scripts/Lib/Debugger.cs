@@ -28,6 +28,7 @@ public class Debugger : MonoBehaviour
 
   /// <summary>
   /// FPS計測
+  /// 最初に一回だけ実行すれば良い
   /// </summary>
   private async void _MeasureFps()
   {
@@ -39,17 +40,22 @@ public class Debugger : MonoBehaviour
     }
   }
 
+  /// <summary>
+  /// 最初に一度イベント登録
+  /// </summary>
   private void _AddEvent()
   {
     this._eventPrefab.SetActive(false);
     FishEvents.onBorn.AddListener(this._onBorn);
     FishEvents.onDie.AddListener(this._onDie);
-    Debug.Log("add event");
   }
 
+  /// <summary>
+  /// だれかが生まれたとき
+  /// </summary>
+  /// <param name="id"></param>
   private void _onBorn(string id)
   {
-    Debug.Log("id born");
     GameObject eventGO = Instantiate(this._eventPrefab, this._eventGroup.transform);
     eventGO.SetActive(true);
     Text t = eventGO.GetComponent<Text>();
@@ -58,17 +64,24 @@ public class Debugger : MonoBehaviour
     this._UpdateEvents(eventGO);
   }
 
+  /// <summary>
+  /// 誰かが死んだとき
+  /// </summary>
+  /// <param name="id"></param>
   private void _onDie(string id)
   {
-    Debug.Log("id die");
-    GameObject eventGO = Instantiate(this._eventPrefab, this._eventGroup.transform);
-    eventGO.SetActive(true);
-    Text t = eventGO.GetComponent<Text>();
+    GameObject eventGo = Instantiate(this._eventPrefab, this._eventGroup.transform);
+    eventGo.SetActive(true);
+    Text t = eventGo.GetComponent<Text>();
     t.text = $"{id} was dead";
 
-    this._UpdateEvents(eventGO);
+    this._UpdateEvents(eventGo);
   }
 
+  /// <summary>
+  /// だれかのライフイベントが発生したとき
+  /// </summary>
+  /// <param name="go"></param>
   private void _UpdateEvents(GameObject go)
   {
     this._events.Add(go);

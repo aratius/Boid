@@ -24,7 +24,6 @@ public class FishController : MonoBehaviour
   private FishManager _fishManager = new FishManager();
   private List<Fish> _fishes = new List<Fish>();
 
-  // Start is called before the first frame update
   void Start()
   {
     for (int i = 0; i < 10; i++)
@@ -36,7 +35,6 @@ public class FishController : MonoBehaviour
     this._fishManager.Init();
   }
 
-  // Update is called once per frame
   void Update()
   {
 
