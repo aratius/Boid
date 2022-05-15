@@ -11,14 +11,22 @@ using DG.Tweening;
 public class Fish : BoidModel
 {
 
+  /// <summary>
+  /// public
+  /// </summary>
   public FishData data;  // 魚情報
   public UnityEvent<Fish> onDie = new UnityEvent<Fish>();  // 死亡イベント
   public Sex sex;  // 性別
-  public float _size = 0f;  // 身長
+  public Fish partner;
+
+  /// <summary>
+  /// private
+  /// </summary>
   private Material _material;
+  private float _size = 0f;  // 身長
   private float _progress = 0f;  // 経過
   private Vector3 _velocity = Vector3.zero;
-  private float bornTime;
+  private float _bornTime;
   private float _illnessToSave;
   private float _painToSave;
   private bool _isIllness = false;  // 病気
@@ -51,7 +59,7 @@ public class Fish : BoidModel
   /// <value></value>
   public int age
   {
-    get { return (int)Mathf.Round(Time.time - this.bornTime); }
+    get { return (int)Mathf.Round(Time.time - this._bornTime); }
   }
 
   /// <summary>
@@ -132,7 +140,7 @@ public class Fish : BoidModel
 
   public void SetAge(int _age)
   {
-    this.bornTime = Mathf.Round(Time.time - _age);
+    this._bornTime = Mathf.Round(Time.time - _age);
   }
 
   /// <summary>
@@ -162,7 +170,11 @@ public class Fish : BoidModel
       POWER_POS,
       THRESHOLD_DIR,
       POWER_DIR
-    ) * Time.deltaTime * 90f * confficient;
+    // ) * Time.deltaTime * 90f * confficient;
+    ) * confficient;
+
+    Fish partner = MarriageAlgorithum.getPartner(this, others);
+    if (partner != null) this.MarrigeWith(partner);
   }
 
   /// <summary>
@@ -185,10 +197,11 @@ public class Fish : BoidModel
     this.sex = Random.Range(0f, 1f) < 0.5f ? Sex.Male : Sex.Female;
 
     // 出生時間
-    this.bornTime = Time.time;
+    this._bornTime = Time.time;
 
     // 身長
-    this.size = Random.Range(0f, 1f) < 0.95f ? Random.Range(0.5f, 0.8f) : Random.Range(1.5f, 2f);
+    // this.size = Random.Range(0f, 1f) < 0.95f ? Random.Range(0.5f, 0.8f) : Random.Range(1.5f, 2f);
+    this.size = Random.Range(0.5f, 0.8f);
   }
 
   /// <summary>
@@ -213,17 +226,17 @@ public class Fish : BoidModel
   /// <summary>
   /// 結婚
   /// </summary>
-  /// <param name="with"></param>
-  public void Marrige(Fish with)
+  /// <param name="partner"></param>
+  public void MarrigeWith(Fish partner)
   {
-
+    Debug.Log($"Marriage with {partner.data.id}, {partner.age}");
   }
 
   /// <summary>
   /// 喧嘩
   /// </summary>
-  /// <param name="with"></param>
-  public void Fight(Fish with)
+  /// <param name="enemy"></param>
+  public void FightWith(Fish enemy)
   {
     // 低確率で死亡
   }
@@ -231,8 +244,8 @@ public class Fish : BoidModel
   /// <summary>
   /// 恋に落ちる
   /// </summary>
-  /// <param name="with"></param>
-  public void FallInLove(Fish with)
+  /// <param name="angel"></param>
+  public void FallInLoveWith(Fish angel)
   {
 
   }
@@ -256,8 +269,8 @@ public class Fish : BoidModel
   /// <summary>
   /// Netfrix見てChillする
   /// </summary>
-  /// <param name="with"></param>
-  public void NetfrixAndChill(Fish with)
+  /// <param name="friend"></param>
+  public void NetfrixAndChillWith(Fish friend)
   {
     // 結婚しているときにこのイベントが発生したら妊娠する可能性がある
     // TODO: tweenでprogressを素早く動かす
