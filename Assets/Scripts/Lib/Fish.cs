@@ -8,7 +8,7 @@ using DG.Tweening;
 /// <summary>
 /// 一定progress到達したら死ぬ？（一生の間の心拍回数は決まっている？）
 /// </summary>
-public class Fish : BoidModel
+public class Fish : MonoBehaviour
 {
 
   /// <summary>
@@ -36,18 +36,18 @@ public class Fish : BoidModel
   /// 位置
   /// </summary>
   /// <value></value>
-  public override Vector3 position
+  public Vector3 position
   {
     get { return this.transform.position; }
     set { this.transform.position = value; }
   }
 
-  public override float direction
+  public float direction
   {
     get { return Mathf.Atan2(this._velocity.x, this._velocity.y); }
   }
 
-  public override float size
+  public float size
   {
     get { return this._size; }
     set { this._size = value; }
@@ -162,8 +162,8 @@ public class Fish : BoidModel
     confficient = Mathf.Pow(confficient, 1.2f);
 
     this._velocity += BoidAlgorithum.getVelociry(
-      this as BoidModel,
-      others.ConvertAll<BoidModel>(new System.Converter<Fish, BoidModel>((Fish f) => f as BoidModel)),
+      this,
+      others,
       THRESHOLD_REFRECT,
       POWER_REFRECT,
       THRESHOLD_POS,
@@ -230,6 +230,8 @@ public class Fish : BoidModel
   public void MarrigeWith(Fish partner)
   {
     Debug.Log($"Marriage with {partner.data.id}, {partner.age}");
+
+    this.partner = partner;
   }
 
   /// <summary>
