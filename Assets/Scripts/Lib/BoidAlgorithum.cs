@@ -29,14 +29,23 @@ public class BoidAlgorithum
       if (me.position == other.position) continue;
       float dist = Vector3.Distance(me.position, other.position);
 
+      bool isPartner = false;
+      if (other.partner != null && me.data.id == other.partner.data.id) isPartner = true;
+
       // 反発
       if (dist < THRESHOLD_REFRECT * other.size)
       {
-        addVel += (
-          -1f  // 逆方向
-          * Vector3.Normalize(other.position - me.position)
-          * (THRESHOLD_REFRECT * other.size - dist) * 0.05f * POWER_REFRECT
-        );
+
+        // 結婚相手でなければ
+        // NOTE: 身内じゃなければにしたい
+        if (!isPartner)
+        {
+          addVel += (
+            -1f  // 逆方向
+            * Vector3.Normalize(other.position - me.position)
+            * (THRESHOLD_REFRECT * other.size - dist) * 0.05f * POWER_REFRECT
+          );
+        }
       }
 
       // 位置平均

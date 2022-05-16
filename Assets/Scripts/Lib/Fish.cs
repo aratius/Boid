@@ -131,9 +131,23 @@ public class Fish : MonoBehaviour
     float scale = Mathf.Min((range[1] - range[0]) / 20f * this.age + range[0], 1f);
     this.transform.localScale = Vector3.one * scale * this.size;
 
-    float rand = Random.Range(0f, 1f);
-    float illProbability = Time.deltaTime / 10;  // 10sに一回病気になるくらいの感覚
-    if (rand < illProbability) this.GetIll();
+    float illProbability = Time.deltaTime / 10;  // 10sに一回くらいの感覚
+    if (Percent.Get(illProbability)) this.GetIll();
+
+    // NetfrixAndChillのトリガー
+    if (this.partner != null)
+    {
+      float distToPartner = Vector3.Distance(this.position, this.partner.position);
+      if (distToPartner < 3f)
+      {
+        float chillProbability = Time.deltaTime / 2;  // 2sに一回くらいの感覚
+        if (Percent.Get(chillProbability))
+        {
+          this.NetfrixAndChillWith(this.partner);
+          this.partner.NetfrixAndChillWith(this);
+        }
+      }
+    }
 
     this._velocity *= 0.99f;
   }
@@ -173,8 +187,7 @@ public class Fish : MonoBehaviour
     // ) * Time.deltaTime * 90f * confficient;
     ) * confficient;
 
-    Fish partner = MarriageAlgorithum.getPartner(this, others);
-    if (partner != null) this.MarrigeWith(partner);
+    MarriageAlgorithum.getPartner(this, others);
   }
 
   /// <summary>
@@ -229,18 +242,17 @@ public class Fish : MonoBehaviour
   /// <param name="partner"></param>
   public void MarrigeWith(Fish partner)
   {
-    Debug.Log($"Marriage with {partner.data.id}, {partner.age}");
-
+    // Debug.Log($"Marriage with {partner.data.id}, {partner.age}");
     this.partner = partner;
+    this.partner.onDie.AddListener(this.OnDiePartner);
   }
 
   /// <summary>
-  /// 喧嘩
+  /// 離婚
   /// </summary>
-  /// <param name="enemy"></param>
-  public void FightWith(Fish enemy)
+  public void Divorce()
   {
-    // 低確率で死亡
+
   }
 
   /// <summary>
@@ -272,10 +284,34 @@ public class Fish : MonoBehaviour
   /// Netfrix見てChillする
   /// </summary>
   /// <param name="friend"></param>
-  public void NetfrixAndChillWith(Fish friend)
+  public async void NetfrixAndChillWith(Fish friend)
   {
     // 結婚しているときにこのイベントが発生したら妊娠する可能性がある
     // TODO: tweenでprogressを素早く動かす
+    Debug.Log($"Chill with {partner.data.id}, {partner.age}");
+
+    int cnt = 0;
+    bool finished = false;
+    while (!finished && this.partner != null)
+    {
+      await UniTask.WaitForFixedUpdate();
+      this._progress += 0.03f;
+      cnt++;
+
+      // 惹かれ合う力
+      float dist = Vector3.Distance(this.position, this.partner.position);
+      if (dist < 3f)
+      {
+        Vector3 magnetPower = this.partner.position - this.position;
+        this._velocity += Vector3.Normalize(magnetPower) * dist * 0.001f;
+      }
+
+      if (cnt > 180) finished = true;
+    }
+
+    // 妊娠する
+    float getPregnantProbability = 3 / 10;
+    if (Percent.Get(getPregnantProbability)) this.GetPregnant();
   }
 
   /// <summary>
@@ -292,6 +328,16 @@ public class Fish : MonoBehaviour
   /// NOTE: メスクラスに継承してそちらで実装したほうが良いかも
   /// </summary>
   public void GiveBirth()
+  {
+    // 低確率で死亡
+  }
+
+
+  /// <summary>
+  /// 喧嘩
+  /// </summary>
+  /// <param name="enemy"></param>
+  public void FightWith(Fish enemy)
   {
     // 低確率で死亡
   }
@@ -318,6 +364,19 @@ public class Fish : MonoBehaviour
     }
 
     this._isIllness = false;
+  }
+
+  /// <summary>
+  /// パートナーと死別
+  /// </summary>
+  /// <param name="partner"></param>
+  private void OnDiePartner(Fish partner)
+  {
+    this.partner = null;
+
+    // ショックでたまに病気になる
+    float illProbability = 3 / 10;
+    if (Percent.Get(illProbability)) this.GetIll();
   }
 
 }

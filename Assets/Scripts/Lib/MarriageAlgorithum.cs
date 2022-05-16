@@ -6,7 +6,7 @@ using System.Collections.Generic;
 /// </summary>
 public class MarriageAlgorithum
 {
-  public static Fish getPartner(
+  public static void getPartner(
     in Fish me,
     in List<Fish> others
   )
@@ -17,7 +17,7 @@ public class MarriageAlgorithum
     if (
       me.partner != null ||
       me.age < 18
-    ) return partner;
+    ) return;
 
     for (int i = 0; i < others.Count; i++)
     {
@@ -27,9 +27,9 @@ public class MarriageAlgorithum
       // NOTE: 条件式がfalse担った時点でその後の条件は評価されない
       // NOTE: これは現実と近い
       if (
-        me.sex != other.sex ||
-        other.age < 18 ||
-        other.partner != null
+        me.sex != other.sex ||  // 性別は？そもそも恋愛対象に入るかどうか LGBTQの実装はまだ
+        other.age < 18 ||  // 年齢は結婚できる年齢か？
+        other.partner != null  // 独身か？
       ) continue;
 
       float dist = Vector3.Distance(me.position, other.position);
@@ -40,6 +40,10 @@ public class MarriageAlgorithum
       }
     }
 
-    return partner;
+    if (partner != null)
+    {
+      me.MarrigeWith(partner);
+      partner.MarrigeWith(me);
+    }
   }
 }
