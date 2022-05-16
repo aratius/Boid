@@ -20,10 +20,42 @@ public class FishManager
   }
 
   /// <summary>
+  ///
+  /// </summary>
+  /// <param name="daddy"></param>
+  /// <param name="mammy"></param>
+  /// <returns></returns>
+  public async UniTask<FishData> GetChild(Fish daddy, Fish mammy)
+  {
+    FishData d = new FishData(
+      daddy.data.id,
+      daddy.data.sortkey,
+      daddy.data.points,
+      daddy.data.center,
+      daddy.data.parentIds,
+      daddy.data.generation,
+      daddy.data.image
+    );
+    FishData m = new FishData(
+      mammy.data.id,
+      mammy.data.sortkey,
+      mammy.data.points,
+      mammy.data.center,
+      mammy.data.parentIds,
+      mammy.data.generation,
+      mammy.data.image
+    );
+
+    JsonData data = await Api.GetChild(d, m);
+
+    return null;
+  }
+
+  /// <summary>
   /// TODO: 一匹要求されてどれを返すかのアルゴリズムをここで
   /// </summary>
   /// <returns></returns>
-  public FishData getOne()
+  public FishData GetOne()
   {
     // データないときはnull返す
     if (this._data.Count == 0) return null;

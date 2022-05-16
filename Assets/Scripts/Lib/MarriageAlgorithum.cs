@@ -35,8 +35,8 @@ public class MarriageAlgorithum
       float dist = Vector3.Distance(me.position, other.position);
       if (dist < 1.5)
       {
-        float marriageProbability = Time.deltaTime / 20;
-        if (Random.Range(0f, 1f) < marriageProbability) partner = other;
+        float marriageProbability = Time.deltaTime / 20f;
+        if (Percent.Get(marriageProbability)) partner = other;
       }
     }
 

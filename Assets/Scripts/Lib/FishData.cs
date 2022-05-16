@@ -59,4 +59,68 @@ public class FishData
     this.image = image;
   }
 
+  public string ToJson()
+  {
+    return JsonMapper.ToJson(
+      new FishJson(
+        this.id,
+        this.sortkey,
+        this.points,
+        this.center,
+        this.parentIds,
+        this.generation,
+        this.image
+      )
+    );
+  }
+
+}
+
+class V2
+{
+  public float x;
+  public float y;
+  public V2(float _x, float _y)
+  {
+    this.x = _x;
+    this.y = _y;
+  }
+}
+
+class FishJson
+{
+  public string id;
+  public int sortkey;
+  public List<V2> points = new List<V2>();
+  public V2 center;
+  public List<string> parentIds = new List<string>();
+  public int generation;
+  public string image;
+
+  public FishJson(
+  in string id,
+  in int sortkey,
+  in List<Vector2> points,
+  in Vector2 center,
+  in List<string> parentIds,
+  in int generation,
+  in string image
+)
+  {
+    this.id = id;
+    this.sortkey = sortkey;
+    this.parentIds = parentIds;
+    this.generation = generation;
+    this.image = image;
+
+    // Vector2をV2に変換
+    List<V2> ps = new List<V2>();
+    for (int i = 0; i < points.Count; i++)
+    {
+      ps.Add(new V2(points[i].x, points[i].y));
+    }
+    this.points = ps;
+
+    this.center = new V2(center.x, center.y);
+  }
 }

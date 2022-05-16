@@ -16,6 +16,7 @@ public class Fish : MonoBehaviour
   /// </summary>
   public FishData data;  // 魚情報
   public UnityEvent<Fish> onDie = new UnityEvent<Fish>();  // 死亡イベント
+  public UnityEvent<Fish> onGetPregnant = new UnityEvent<Fish>();  // 死亡イベント
   public Sex sex;  // 性別
   public Fish partner;
 
@@ -207,7 +208,7 @@ public class Fish : MonoBehaviour
     material.SetTexture("_MyTex", texture);
 
     // 性別
-    this.sex = Random.Range(0f, 1f) < 0.5f ? Sex.Male : Sex.Female;
+    this.sex = Percent.Get(0.5f) ? Sex.Male : Sex.Female;
 
     // 出生時間
     this._bornTime = Time.time;
@@ -288,13 +289,12 @@ public class Fish : MonoBehaviour
   {
     // 結婚しているときにこのイベントが発生したら妊娠する可能性がある
     // TODO: tweenでprogressを素早く動かす
-    Debug.Log($"Chill with {partner.data.id}, {partner.age}");
+    // Debug.Log($"Chill with {partner.data.id}, {partner.age}");
 
     int cnt = 0;
     bool finished = false;
     while (!finished && this.partner != null)
     {
-      await UniTask.WaitForFixedUpdate();
       this._progress += 0.03f;
       cnt++;
 
@@ -307,11 +307,13 @@ public class Fish : MonoBehaviour
       }
 
       if (cnt > 180) finished = true;
+
+      await UniTask.WaitForFixedUpdate();
     }
 
     // 妊娠する
-    float getPregnantProbability = 3 / 10;
-    if (Percent.Get(getPregnantProbability)) this.GetPregnant();
+    float getPregnantProbability = 1f / 10f;
+    if (this.sex == Sex.Female && Percent.Get(getPregnantProbability)) this.GetPregnant();
   }
 
   /// <summary>
@@ -320,7 +322,8 @@ public class Fish : MonoBehaviour
   /// </summary>
   public void GetPregnant()
   {
-
+    Debug.Log("妊娠");
+    this.onGetPregnant.Invoke(this);
   }
 
   /// <summary>
@@ -375,8 +378,10 @@ public class Fish : MonoBehaviour
     this.partner = null;
 
     // ショックでたまに病気になる
-    float illProbability = 3 / 10;
+    float illProbability = 3f / 10f;
     if (Percent.Get(illProbability)) this.GetIll();
+
+    Debug.Log("パートナー死亡");
   }
 
 }

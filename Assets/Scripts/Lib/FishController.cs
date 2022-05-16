@@ -40,7 +40,7 @@ public class FishController : MonoBehaviour
 
     if (this._fishes.Count < this._FISH_COUNT)
     {
-      FishData fishData = this._fishManager.getOne();
+      FishData fishData = this._fishManager.GetOne();
       if (fishData != null)
       {
         Vector3 pos = new Vector3(0f, MyStage.BOTTOM - 1f, 0f);
@@ -68,14 +68,15 @@ public class FishController : MonoBehaviour
   /// </summary>
   /// <param name="data"></param>
   /// <param name="pos"></param>
-  private void _CreateOne(FishData data, Vector3 pos, int age = -1)
+  private void _CreateOne(FishData data, Vector3 pos, int age = 0)
   {
     GameObject go = Instantiate(_fishPrefab, this._stage.transform);
     Fish fish = go.GetComponent<Fish>();
     fish.position = pos;
     fish.Born(data);
-    if (age != 1) fish.SetAge(age);
+    fish.SetAge(age);
     fish.onDie.AddListener(this._OnDie);
+    if (fish.sex == Sex.Female) fish.onGetPregnant.AddListener(this._OnGetPregnant);
     this._fishes.Add(fish);
     this._fishManager.Add(data.id);
 
@@ -96,6 +97,16 @@ public class FishController : MonoBehaviour
 
     // グローバルにイベント発火
     FishEvents.onDie.Invoke(fish.data.id);
+  }
+
+  private async void _OnGetPregnant(Fish mammy)
+  {
+    Debug.Log("妊娠した");
+    Fish daddy = mammy.partner;
+
+    FishData child = await this._fishManager.GetChild(daddy, mammy);
+
+
   }
 
 }
