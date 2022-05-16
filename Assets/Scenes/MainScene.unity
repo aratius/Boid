@@ -1246,6 +1246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f1fc93b17c7045119d55cca83204082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fishCount: {fileID: 1423993813}
   _fps: {fileID: 1050362062}
   _eventGroup: {fileID: 2115429424}
   _eventPrefab: {fileID: 1930854263}
