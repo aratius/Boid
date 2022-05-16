@@ -101,12 +101,9 @@ public class FishController : MonoBehaviour
 
   private async void _OnGetPregnant(Fish mammy)
   {
-    Debug.Log("妊娠した");
     Fish daddy = mammy.partner;
-
     FishData child = await this._fishManager.GetChild(daddy, mammy);
-
-
+    this._CreateOne(child, mammy.position);
   }
 
 }

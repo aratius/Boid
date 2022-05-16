@@ -37,7 +37,6 @@ public class FishData
     }
 
     this.image = json["image"].ToString();
-
   }
 
   public FishData(

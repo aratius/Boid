@@ -1,3 +1,4 @@
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
@@ -47,8 +48,8 @@ public class FishManager
     );
 
     JsonData data = await Api.GetChild(d, m);
-
-    return null;
+    Debug.Log(data["body"].ToJson());
+    return new FishData(data["body"]);
   }
 
   /// <summary>

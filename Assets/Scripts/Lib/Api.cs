@@ -28,6 +28,7 @@ public class Api
     else
     {
       JsonData data = JsonMapper.ToObject<JsonData>(www.downloadHandler.text.Trim());
+      Debug.Log($"GetList Response {www.downloadHandler.text}");
       return data;
     }
   }
@@ -38,7 +39,6 @@ public class Api
   /// <returns></returns>
   public static async UniTask<JsonData> GetChild(FishData daddy, FishData mammy)
   {
-    Debug.Log("get child");
     string daddyData = daddy.ToJson();
     string mammyData = mammy.ToJson();
     byte[] postData = System.Text.Encoding.UTF8.GetBytes("{parents: [" + daddyData + "," + mammyData + "], generation: " + daddy.generation + "}");
@@ -56,7 +56,7 @@ public class Api
     else
     {
       JsonData data = JsonMapper.ToObject<JsonData>(www.downloadHandler.text.Trim());
-      Debug.Log($"fish child {www.downloadHandler.text}");
+      Debug.Log($"GetChild Response {www.downloadHandler.text}");
       return data;
     }
   }
