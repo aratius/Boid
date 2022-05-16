@@ -31,14 +31,30 @@ public class BoidAlgorithum
 
       bool isPartner = false;
       if (other.partner != null && me.data.id == other.partner.data.id) isPartner = true;
+      bool isFamily = false;
+      if ((
+          me.data.parentIds.Count > 0 &&
+          other.data.parentIds.Count > 0
+      ))
+      {
+        if (
+          (
+            me.data.id == other.data.parentIds[0] ||
+            me.data.id == other.data.parentIds[1]
+          ) ||
+          (
+            other.data.id == me.data.parentIds[0] ||
+            other.data.id == me.data.parentIds[1]
+          )
+        ) isFamily = true;
+      }
 
       // 反発
       if (dist < THRESHOLD_REFRECT * other.size)
       {
 
-        // 結婚相手でなければ
-        // NOTE: 身内じゃなければにしたい
-        if (!isPartner)
+        // NOTE: 身内じゃなければ
+        if (!isPartner && !isFamily)
         {
           addVel += (
             -1f  // 逆方向

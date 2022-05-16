@@ -295,7 +295,7 @@ public class Fish : MonoBehaviour
     bool finished = false;
     while (!finished && this.partner != null)
     {
-      this._progress += 0.03f;
+      this._progress += 0.005f;
       cnt++;
 
       // 惹かれ合う力
@@ -322,7 +322,6 @@ public class Fish : MonoBehaviour
   /// </summary>
   public void GetPregnant()
   {
-    Debug.Log("妊娠");
     this.onGetPregnant.Invoke(this);
   }
 
