@@ -32,6 +32,7 @@ public class Fish : MonoBehaviour
   private float _painToSave;
   private bool _isIllness = false;  // 病気
   private Tween _illnessTween;
+  private bool _isDead = false;
 
   /// <summary>
   /// 位置
@@ -132,6 +133,7 @@ public class Fish : MonoBehaviour
     float scale = Mathf.Min((range[1] - range[0]) / 20f * this.age + range[0], 1f);
     this.transform.localScale = Vector3.one * scale * this.size;
 
+    // 病気になる
     float illProbability = Time.deltaTime / 10;  // 10sに一回くらいの感覚
     if (Percent.Get(illProbability)) this.GetIll();
 
@@ -153,6 +155,10 @@ public class Fish : MonoBehaviour
     this._velocity *= 0.99f;
   }
 
+  /// <summary>
+  /// 年齢をセット
+  /// </summary>
+  /// <param name="_age"></param>
   public void SetAge(int _age)
   {
     this._bornTime = Mathf.Round(Time.time - _age);
@@ -188,6 +194,7 @@ public class Fish : MonoBehaviour
     // ) * Time.deltaTime * 90f * confficient;
     ) * confficient;
 
+    // 結婚するかも
     MarriageAlgorithum.getPartner(this, others);
   }
 
@@ -225,6 +232,7 @@ public class Fish : MonoBehaviour
   {
     // TODO: await 死ぬアニメーション
     this.onDie.Invoke(this);
+    this._isDead = true;
   }
 
   /// <summary>
@@ -293,7 +301,7 @@ public class Fish : MonoBehaviour
 
     int cnt = 0;
     bool finished = false;
-    while (!finished && this.partner != null)
+    while (!finished && this.partner != null && !this._isDead)
     {
       this._progress += 0.005f;
       cnt++;
@@ -307,7 +315,6 @@ public class Fish : MonoBehaviour
       }
 
       if (cnt > 180) finished = true;
-
       await UniTask.WaitForFixedUpdate();
     }
 
@@ -379,8 +386,6 @@ public class Fish : MonoBehaviour
     // ショックでたまに病気になる
     float illProbability = 3f / 10f;
     if (Percent.Get(illProbability)) this.GetIll();
-
-    Debug.Log("パートナー死亡");
   }
 
 }

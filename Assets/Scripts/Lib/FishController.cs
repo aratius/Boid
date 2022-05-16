@@ -99,11 +99,19 @@ public class FishController : MonoBehaviour
     FishEvents.onDie.Invoke(fish.data.id);
   }
 
+  /// <summary>
+  /// 魚の妊娠
+  /// 卵ではない
+  /// </summary>
+  /// <param name="mammy"></param>
+  /// <returns></returns>
   private async void _OnGetPregnant(Fish mammy)
   {
     Fish daddy = mammy.partner;
+    if (mammy == null || daddy == null) return;
+
     FishData child = await this._fishManager.GetChild(daddy, mammy);
-    this._CreateOne(child, mammy.position);
+    if (mammy != null) this._CreateOne(child, mammy.position);
   }
 
 }

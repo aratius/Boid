@@ -48,7 +48,6 @@ public class FishManager
     );
 
     JsonData data = await Api.GetChild(d, m);
-    Debug.Log(data["body"].ToJson());
     return new FishData(data["body"]);
   }
 
