@@ -171,6 +171,7 @@ public class Fish : MonoBehaviour
   /// <param name="others"></param>
   public void LookAround(
     in List<Fish> others,
+    in GameObject[] enemies,
     in float THRESHOLD_REFRECT,
     in float POWER_REFRECT,
     in float THRESHOLD_POS,
@@ -185,6 +186,7 @@ public class Fish : MonoBehaviour
     this._velocity += BoidAlgorithum.getVelociry(
       this,
       others,
+      enemies,
       THRESHOLD_REFRECT,
       POWER_REFRECT,
       THRESHOLD_POS,

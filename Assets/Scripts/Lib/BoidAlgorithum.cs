@@ -9,6 +9,7 @@ public class BoidAlgorithum
   public static Vector3 getVelociry(
     in Fish me,
     in List<Fish> others,
+    in GameObject[] enemies,
     in float THRESHOLD_REFRECT,
     in float POWER_REFRECT,
     in float THRESHOLD_POS,
@@ -78,6 +79,23 @@ public class BoidAlgorithum
         dirCount++;
       }
     }
+
+    Debug.Log(enemies.Length);
+    for (int i = 0; i < enemies.Length; i++)
+    {
+      GameObject enemy = enemies[i];
+      float dist = Vector3.Distance(me.position, enemy.transform.position);
+
+      if (dist < THRESHOLD_REFRECT)
+      {
+        addVel += (
+          -1f  // 逆方向
+          * Vector3.Normalize(enemy.transform.position - me.position)
+          * (THRESHOLD_REFRECT - dist) * 0.05f * POWER_REFRECT
+        );
+      }
+    }
+
     addPos /= posCount;
     addDir /= dirCount;
 

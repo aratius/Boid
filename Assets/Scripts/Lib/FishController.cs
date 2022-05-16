@@ -48,11 +48,14 @@ public class FishController : MonoBehaviour
       }
     }
 
+    GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
     for (int i = 0; i < this._fishes.Count; i++)
     {
       Fish fish = this._fishes[i];
       fish.LookAround(
         this._fishes,
+        enemies,
         this._THRESHOLD_REFRECT,
         this._POWER_REFRECT,
         this._THRESHOLD_POS,
