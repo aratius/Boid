@@ -143,8 +143,9 @@ public class Fish : MonoBehaviour
       float distToPartner = Vector3.Distance(this.position, this.partner.position);
       if (distToPartner < 3f)
       {
+        float ageProbability = Percent.AgeRange(this.age, 40f, 25f);
         float chillProbability = Time.deltaTime / 2;  // 2sに一回くらいの感覚
-        if (Percent.Get(chillProbability))
+        if (Percent.Get(chillProbability * ageProbability))
         {
           this.NetfrixAndChillWith(this.partner);
           this.partner.NetfrixAndChillWith(this);

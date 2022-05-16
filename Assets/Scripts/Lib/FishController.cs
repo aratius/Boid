@@ -29,7 +29,8 @@ public class FishController : MonoBehaviour
     for (int i = 0; i < 10; i++)
     {
       Vector3 randomPos = new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), 0f);
-      this._CreateOne(FishDummy.instance, randomPos, 20);
+      int age = Random.Range(0, 70);
+      this._CreateOne(FishDummy.instance, randomPos, age);
     }
 
     this._fishManager.Init();

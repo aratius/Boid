@@ -80,7 +80,6 @@ public class BoidAlgorithum
       }
     }
 
-    Debug.Log(enemies.Length);
     for (int i = 0; i < enemies.Length; i++)
     {
       GameObject enemy = enemies[i];
