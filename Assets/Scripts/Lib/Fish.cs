@@ -33,6 +33,7 @@ public class Fish : MonoBehaviour
   private bool _isIllness = false;  // 病気
   private Tween _illnessTween;
   private bool _isDead = false;
+  private bool _isNetfrixAndChill = false;
 
   /// <summary>
   /// 位置
@@ -134,8 +135,9 @@ public class Fish : MonoBehaviour
     this.transform.localScale = Vector3.one * scale * this.size;
 
     // 病気になる
-    float illProbability = Time.deltaTime / 10;  // 10sに一回くらいの感覚
-    if (Percent.Get(illProbability)) this.GetIll();
+    float illAgeProbability = Percent.AgeMax(this.age, 120f, 120f);
+    float illProbability = Time.deltaTime / 2f;  // 1sに一回くらいの感覚
+    if (Percent.Get(illProbability * illAgeProbability)) this.GetIll();
 
     // NetfrixAndChillのトリガー
     if (this.partner != null)
@@ -298,9 +300,8 @@ public class Fish : MonoBehaviour
   /// <param name="friend"></param>
   public async void NetfrixAndChillWith(Fish friend)
   {
-    // 結婚しているときにこのイベントが発生したら妊娠する可能性がある
-    // TODO: tweenでprogressを素早く動かす
-    // Debug.Log($"Chill with {partner.data.id}, {partner.age}");
+    if (this._isNetfrixAndChill) return;
+    this._isNetfrixAndChill = true;
 
     int cnt = 0;
     bool finished = false;
@@ -320,6 +321,8 @@ public class Fish : MonoBehaviour
       if (cnt > 180) finished = true;
       await UniTask.WaitForFixedUpdate();
     }
+
+    this._isNetfrixAndChill = false;
 
     // 妊娠する
     float getPregnantProbability = 1f / 10f;
@@ -370,6 +373,9 @@ public class Fish : MonoBehaviour
       await UniTask.Delay(waitTime);
 
       deathProbability += Random.Range(-0.4f, 0.4f);
+      // 年取っていると死にやすい
+      float ageBias = Percent.AgeMax(this.age, 120f, 120f) - 0.5f;
+      deathProbability += -ageBias * 0.8f;
       this._illness = Mathf.Max(Mathf.Min(deathProbability, 1f), 0f);
 
       if (deathProbability <= 0f || deathProbability >= 1f) break;  // 病気完治

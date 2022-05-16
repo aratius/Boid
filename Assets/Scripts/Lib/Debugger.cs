@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 
 public class Debugger : MonoBehaviour
 {
+  [SerializeField] private Text _fishCount;
   [SerializeField] private Text _fps;
   [SerializeField] private GameObject _eventGroup;
   [SerializeField] private GameObject _eventPrefab;
@@ -15,7 +16,7 @@ public class Debugger : MonoBehaviour
   /// </summary>
   void Start()
   {
-    this._MeasureFps();
+    this._Measure();
     this._AddEvent();
   }
 
@@ -24,18 +25,24 @@ public class Debugger : MonoBehaviour
   /// </summary>
   void Update()
   {
+
   }
 
   /// <summary>
-  /// FPS計測
+  /// 計測
   /// 最初に一回だけ実行すれば良い
+  /// 毎フレームやるのコスト高そうだから
   /// </summary>
-  private async void _MeasureFps()
+  private async void _Measure()
   {
     while (true)
     {
       float fps = 1 / Time.deltaTime;
       this._fps.text = $"fps : {Mathf.Round(fps)}";
+
+      GameObject[] fishes = GameObject.FindGameObjectsWithTag("Fish");
+      this._fishCount.text = $"fishCount : {fishes.Length}";
+
       await UniTask.Delay(1000);
     }
   }
