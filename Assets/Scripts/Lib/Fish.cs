@@ -302,12 +302,13 @@ public class Fish : MonoBehaviour
   {
     if (this._isNetfrixAndChill) return;
     this._isNetfrixAndChill = true;
+    Debug.Log("Netfrix and Chilll with");
 
     int cnt = 0;
     bool finished = false;
     while (!finished && this.partner != null && !this._isDead)
     {
-      this._progress += 0.005f;
+      this._progress += 0.01f;
       cnt++;
 
       // 惹かれ合う力
