@@ -95,7 +95,7 @@ Shader "Hidden/Display"
                 tex.rgb += _col * 0.1;
 
 
-                if(i.uv.x > 0.9) tex.rgb *= (1. - i.uv.x) * 10.;
+                if(i.uv.x > 0.6) tex.rgb *= -(10./4.) * i.uv.x + ((10./4.) * 0.6 + 1.);
                 if(i.uv.y > 0.9) tex.rgb *= (1. - i.uv.y) * 10.;
                 if(i.uv.x < 0.1) tex.rgb *= (i.uv.x) * 10.;
                 if(i.uv.y < 0.1) tex.rgb *= (i.uv.y) * 10.;

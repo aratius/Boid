@@ -120,6 +120,7 @@ public class Fish : MonoBehaviour
 
     // 位置更新
     Vector3 pos = this.position;
+    if (this._velocity.x > 0.5f || this._velocity.y > 0.1f) return;
     pos += this._velocity;
     pos = MyStage.getPositionAddBias(pos, 2f, 2f);
     this.transform.position = pos;
