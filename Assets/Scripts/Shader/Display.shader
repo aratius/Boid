@@ -93,6 +93,13 @@ Shader "Hidden/Display"
                 half3 _col = half3(cc, cc, cc) + half3(_Color.r, _Color.g, _Color.b);
                 half4 tex = tex2D(_MyTex, i.uv + c * .025);
                 tex.rgb += _col * 0.1;
+
+
+                if(i.uv.x > 0.9) tex.rgb *= (1. - i.uv.x) * 10.;
+                if(i.uv.y > 0.9) tex.rgb *= (1. - i.uv.y) * 10.;
+                if(i.uv.x < 0.1) tex.rgb *= (i.uv.x) * 10.;
+                if(i.uv.y < 0.1) tex.rgb *= (i.uv.y) * 10.;
+
                 return tex;
 
                 // 上の三行をコメントアウトして下記を有効にすると移植元の GLSL と同じような感じになる
