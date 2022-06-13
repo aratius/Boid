@@ -1645,7 +1645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugObj: {fileID: 8680648181358846571, guid: f7f0e9c85f4ad46a681be4cb425353fa, type: 3}
-  color: {r: 0, g: 1, b: 0, a: 1}
+  color: {r: 1, g: 1, b: 1, a: 0}
 --- !u!114 &1557617536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2184,7 +2184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugObj: {fileID: 8680648181358846571, guid: f7f0e9c85f4ad46a681be4cb425353fa, type: 3}
-  color: {r: 0, g: 1, b: 0, a: 1}
+  color: {r: 1, g: 1, b: 1, a: 0}
 --- !u!114 &2095619566
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -85,12 +85,12 @@ public class BoidAlgorithum
       GameObject enemy = enemies[i];
       float dist = Vector3.Distance(me.position, enemy.transform.position);
 
-      if (dist < THRESHOLD_REFRECT * 2f)
+      if (dist < THRESHOLD_REFRECT)
       {
         addVel += (
           -1f  // 逆方向
           * Vector3.Normalize(enemy.transform.position - me.position)
-          * (THRESHOLD_REFRECT - dist) * 0.05f * POWER_REFRECT
+          * (THRESHOLD_REFRECT - dist) * 0.15f * POWER_REFRECT
         );
       }
     }
